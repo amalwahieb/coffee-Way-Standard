@@ -21,9 +21,11 @@ The redesign release — a full visual overhaul plus timer and accuracy fixes.
 - Machine sheets (Aiden / xBloom) now compute from a neutral pour-over baseline, so the hand-brewer picked on the Build screen no longer alters them.
 - Language button now reads the full word rather than a single letter.
 - Timer "coming up" line rewritten and recoloured so it reads as a preview, not a pour-now instruction.
+- Clarified the Hoffmann pour wording: the first pour is now described as “quick but steady” with a note that a fast first pour is normal, so new users don’t feel they’re doing it wrong.
 
 ### Fixed
 - Finish time is no longer capped at the recipe's expected time — the timer keeps counting past it and records your true finish when you tap Done.
+- Verified the Hoffmann timing against his published method — the schedule (60% by 1:15, 100% by 1:45, freshness-scaled bloom) is accurate and unchanged; only the wording was adjusted.
 
 ---
 
@@ -61,7 +63,7 @@ The transparency-and-calibration release.
 <!--
 TEMPLATE FOR THE NEXT VERSION — copy this block above, fill it in, delete the arrows.
 
-## v1.3 — YYYY-MM-DD
+## v1.4 — YYYY-MM-DD
 
 ### Added
 - ←

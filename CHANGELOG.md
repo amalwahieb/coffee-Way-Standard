@@ -21,6 +21,8 @@ Tune the app to your grinder.
 ### Fixed
 - Timer "tap Done" prompt no longer overflows outside the ring during the drawdown phase.
 - Grind reference strip redrawn to match the intended design (finer, more natural scatter) and moved to the end of the Learn page.
+- Brew-method descriptions (Hoffmann, Kasuya, Osamah, AeroPress, Switch) were showing in English while the app was set to Arabic — they are now fully translated.
+- Humanized the Arabic throughout: natural, spoken phrasing rather than stiff literal translation, across method notes, coaching, and the new calibration feature.
 
 ---
 

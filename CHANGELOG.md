@@ -7,6 +7,22 @@ The format is simple on purpose: each version lists what was **Added**, **Change
 
 ---
 
+## v1.4 — 2026-08-11
+
+The grinder-confidence release — concrete help for knowing your grind is right.
+
+### Added
+- **Grind fingerprint:** the app now learns your proven grind numbers per grinder. After two or more great brews on the same grinder, the recipe card shows your calibrated range (e.g. "Your Fellow Opus fingerprint: great brews landed around 8-8.5") and tells you to trust it over the book number — because worn or different burrs need different settings.
+- **Grind reference strip in Learn:** a clear coarse-to-fine visual of what each grind should look like, from cold brew down to espresso, with micron sizes — so you can see what you're aiming for.
+
+### Changed
+- The drawdown-time verdict is now prescriptive: instead of just "faster than the window," it tells you what to do — "grind is too coarse, try 1-2 steps finer" (or coarser). Your brew time now points you straight at the grind fix.
+
+### Fixed
+- (none)
+
+---
+
 ## v1.3 — 2026-08-08
 
 The redesign release — a full visual overhaul plus timer and accuracy fixes.

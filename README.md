@@ -17,7 +17,7 @@ Core ideas:
 - **Freshness is live.** Enter the roast date once; the app tracks where the bag sits on its rest curve and adjusts grind and temperature as it ages — and tells you exactly what it changed.
 - **It explains itself.** A "Why this recipe?" panel states the reasoning behind every choice, including any age adjustments.
 - **It learns your cups.** Log finish times and verdicts; after a few great brews on one bag, the app calibrates that bag's finish window to *your* results instead of the book estimate.
-- **It learns your grinder.** Across all your bags, it tracks the grind numbers behind your great brews on each grinder and shows your proven range — so a worn or non-standard burr set gets *your* number, not the book's.
+- **It's tuned to your grinder.** Calibrate once — tell it the setting you actually dial — and every recipe on that grinder shifts to *your* numbers, not the book's. It also keeps learning from your great brews. A worn or non-standard burr set stops being a problem.
 
 ---
 
@@ -27,7 +27,8 @@ The grind number is the least portable thing in coffee — the same "6" means di
 
 - **A grind reference in Learn.** A clear coarse-to-fine strip showing what each grind should look like, from cold brew down to espresso, with micron sizes — so you have a visual target, not just a number.
 - **Your brew time tells you the fix.** When a brew runs faster or slower than its window, the app doesn't just flag it — it prescribes the grind move: "grind is too coarse, try 1–2 steps finer" (or coarser).
-- **Your grinder fingerprint.** Every great brew you log teaches the app what setting works on *your* grinder. After a couple, it shows your proven range and tells you to trust that over the book number. This is the honest fix for worn or unusual burrs: your own results become the reference.
+- **Calibrate to your grinder, once.** Tell the app what you actually dial ("it shows 6, I use 8.2 on my Opus") and it learns the difference as an offset. Every recipe on that grinder — hot, iced, any dose, any method — then shifts by your offset, so you always see *your* number. Each grinder keeps its own calibration, so switching between them just works.
+- **Your grinder fingerprint.** On top of that, every great brew you log reinforces what setting works on *your* grinder — a running record of your proven range, so your own results keep the calibration honest as burrs wear.
 
 Together these move grind confidence away from "stare at the grounds and guess" toward "your brew and your history tell you."
 

@@ -7,6 +7,23 @@ The format is simple on purpose: each version lists what was **Added**, **Change
 
 ---
 
+## v1.5 — 2026-08-11
+
+Tune the app to your grinder.
+
+### Added
+- **Per-grinder calibration.** Tap "Not your number?" under any grind reading, enter the setting you actually dial, and the app learns the difference as an offset for that grinder. From then on every recipe on that grinder — hot, iced, any dose, any method — shifts by your offset, so the number shown is *your* number, not the book's. This is the direct fix for worn or non-standard burrs: tell it once, and it carries through everything.
+- Each grinder keeps its own offset, so switching between grinders shows the right calibrated number for each — and a grinder you haven't tuned still shows the book value.
+
+### Changed
+- (none)
+
+### Fixed
+- Timer "tap Done" prompt no longer overflows outside the ring during the drawdown phase.
+- Grind reference strip redrawn to match the intended design (finer, more natural scatter) and moved to the end of the Learn page.
+
+---
+
 ## v1.4 — 2026-08-11
 
 The grinder-confidence release — concrete help for knowing your grind is right.

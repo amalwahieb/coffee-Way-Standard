@@ -27,6 +27,7 @@ The grind number is the least portable thing in coffee — the same "6" means di
 
 - **A grind reference in Learn.** A clear coarse-to-fine strip showing what each grind should look like, from cold brew down to espresso, with micron sizes — so you have a visual target, not just a number.
 - **Your brew time tells you the fix.** When a brew runs faster or slower than its window, the app doesn't just flag it — it prescribes the grind move: "grind is too coarse, try 1–2 steps finer" (or coarser).
+- **Build any grinder.** If your grinder isn’t in the list — or doesn’t exist in any app — pick “Set up my grinder,” enter its units and range, and run a short taste test (brew coarse, brew fine, tell it which was better). It builds a calibrated profile and saves it by name. The app doesn’t need to know every grinder; it helps you map yours.
 - **Calibrate to your grinder, once.** Tell the app what you actually dial ("it shows 6, I use 8.2 on my Opus") and it learns the difference as an offset. Every recipe on that grinder — hot, iced, any dose, any method — then shifts by your offset, so you always see *your* number. Each grinder keeps its own calibration, so switching between them just works.
 - **Your grinder fingerprint.** On top of that, every great brew you log reinforces what setting works on *your* grinder — a running record of your proven range, so your own results keep the calibration honest as burrs wear.
 

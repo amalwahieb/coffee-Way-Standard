@@ -7,6 +7,42 @@ The format is simple on purpose: each version lists what was **Added**, **Change
 
 ---
 
+## v1.7 — 2026-08-12
+
+Grinder setup, corrected and hardened.
+
+### Added
+- **Favourite grinders.** Pin any grinder with the star next to the picker; pinned ones appear in a Favourites group at the top of the list.
+- **Remove a custom grinder** with the x beside the picker (tap once to arm, once to confirm).
+
+### Changed
+- The grinder builder now uses two units — clicks (mostly manual grinders) and numbers (mostly electric) — instead of three.
+- A single-brew correction now moves a smaller, range-scaled step, and says plainly that you should confirm it on the next brew.
+- Wizard wording reworked in both languages.
+
+### Fixed
+- **The two-brew test now respects extraction physics.** A coarser grind always extracts less than a finer one, so a coarser cup cannot taste more extracted than a finer one. Impossible combinations are detected and explained instead of producing a made-up number.
+- Setup no longer returns NaN: name and grinder range are required, and typed settings are clamped to the range you declared.
+- The remove-grinder control no longer overflows its container.
+
+---
+
+## v1.6 — 2026-08-12
+
+Build any grinder — the app no longer needs to know yours.
+
+### Added
+- **Custom grinder builder.** Pick "Set up my grinder," enter its name, units (clicks / numbers / rotations), and range, then run a guided taste test — and the app creates a working, calibrated profile for a grinder it has never heard of. It's saved by name and selectable forever. This makes the app grinder-agnostic: it doesn't need a catalog of every grinder, it helps you map your own.
+- **Guided dial-in test (quick or thorough).** Thorough brews two cups (one coarse, one fine); you taste each and the app pinpoints your setting from the two results. Quick uses a single brew and points you the right way. The same test works for grinders already in the app, to nail down your accurate number.
+
+### Changed
+- (none)
+
+### Fixed
+- (none)
+
+---
+
 ## v1.5 — 2026-08-11
 
 Tune the app to your grinder.

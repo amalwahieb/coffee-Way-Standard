@@ -1,4 +1,4 @@
 {
-  "version": "1.7.2",
-  "notes": "Update-banner test. If you see the reload banner, the update system works."
+  "version": "1.7.1",
+  "notes": "Opus grind reads in real dial format, undo dial-in step, finish advice logs as a step, layout fixes, update checker live."
 }

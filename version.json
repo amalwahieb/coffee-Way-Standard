@@ -1,4 +1,4 @@
 {
-  "version": "1.7.1",
-  "notes": "Opus grind granularity fix, undo dial-in step, finish advice logs as a step, layout overflow fixes."
+  "version": "1.7.2",
+  "notes": "Update-banner test. If you see the reload banner, the update system works."
 }

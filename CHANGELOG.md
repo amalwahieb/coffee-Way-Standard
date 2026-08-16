@@ -7,6 +7,21 @@ The format is simple on purpose: each version lists what was **Added**, **Change
 
 ---
 
+## v1.7.1 — 2026-08-16
+
+Accuracy and dial-in polish.
+
+### Added
+- **Update checker (web version).** When a newer version is published, the app shows a "reload for update" banner — it never interrupts a running brew timer, and it holds the notice until the brew finishes. The running version now shows in the header.
+- **Undo a dial-in step.** An "undo last" control in the dial-in trail removes the most recent entry, one at a time, in case a step was logged by mistake.
+- **Finish-time advice can be logged as a step.** When the drawdown verdict suggests a grind change, an Apply button records it into the dial-in trail like a taste entry.
+
+### Fixed
+- **Fellow Opus grind now reads in its real format.** The Opus adjusts in thirds (each number has three micro-clicks), so it now shows values like "6" or "6 +2" instead of a "6.5" that doesn't exist on the dial. All 42 grinders were re-checked; the Opus was the one that needed correcting.
+- Temperature and calibration Save controls no longer slide out of frame on narrow screens.
+
+---
+
 ## v1.7 — 2026-08-12
 
 Grinder setup, corrected and hardened.

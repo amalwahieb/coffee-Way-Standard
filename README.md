@@ -31,6 +31,8 @@ The grind number is the least portable thing in coffee — the same "6" means di
 - **Calibrate to your grinder, once.** Tell the app what you actually dial ("it shows 6, I use 8.2 on my Opus") and it learns the difference as an offset. Every recipe on that grinder — hot, iced, any dose, any method — then shifts by your offset, so you always see *your* number. Each grinder keeps its own calibration, so switching between them just works.
 - **Your grinder fingerprint.** On top of that, every great brew you log reinforces what setting works on *your* grinder — a running record of your proven range, so your own results keep the calibration honest as burrs wear.
 
+On top of these, a **dial-in trail** records each adjustment as you go — taste-based or finish-time-based — so you can see the path you took and step back if you log something by mistake.
+
 Together these move grind confidence away from "stare at the grounds and guess" toward "your brew and your history tell you."
 
 ---
@@ -39,10 +41,16 @@ Together these move grind confidence away from "stare at the grounds and guess" 
 
 - **19 origins** — Ethiopia, Kenya, Colombia, Peru, Brazil, Guatemala, Costa Rica, Rwanda/Burundi, Panama Gesha, Yemen, Saudi Arabia (Khawlani), Indonesia/Sumatra, Honduras, El Salvador, India, Tanzania/Uganda, Mexico, Thailand, and an "other / unsure" catch-all.
 - **7 processes** — Washed, Honey, Natural, Anaerobic, Co-fermented/Infused, Wet-hulled (Sumatra), Decaf.
-- **43 grinders** — hand and electric, including the Saudi market (Comandante, 1Zpresso, Timemore hand + Sculptor, Kingrinder K0–K6, MHW-3Bomber, Fellow, Baratza, DF64, Varia, MIBRU), plus "other / by feel."
+- **42 grinders** — hand and electric, including the Saudi market (Comandante, 1Zpresso, Timemore hand + Sculptor, Kingrinder K0–K6, MHW-3Bomber, Fellow, Baratza, DF64, Varia, MIBRU). Each shows settings in its own real format — clicks, numbers, rotations, or number-plus-micro-clicks (e.g. the Fellow Opus reads "6 +2", the way its dial actually works).
 - **5 brewers** — V60, Kalita Wave, Chemex, AeroPress, Switch.
 - **Methods** — Hoffmann Ultimate V60, Tetsu Kasuya 4:6 (strength sets the pour count), a locally-calibrated Osamah method, and 50/50; hot and iced (flash).
 - **Machine sheets** — Fellow Aiden and xBloom, with per-pour temperature profiling.
+
+---
+
+## Staying updated
+
+The web version (GitHub Pages) checks for new releases on load and shows a "reload for update" banner when one is available — it never interrupts a running brew timer. The current version is shown in the app header. The Scriptable version is an offline copy on your device, so it updates only when you re-import the file; the visible version number tells you when a re-import is due.
 
 ---
 
@@ -51,6 +59,8 @@ Together these move grind confidence away from "stare at the grounds and guess" 
 | File | What it is |
 |---|---|
 | `brew.html` | The complete app — self-contained, runs in any browser. |
+| `index.html` | A copy of `brew.html` served by GitHub Pages (the live link). |
+| `version.json` | Version marker the web app reads to detect updates. |
 | `brew.js` | The Scriptable wrapper — same app plus iPhone saving and the home-screen widget. |
 | `Coffee Way Standard.scriptable` | The installable Scriptable package (import this on iPhone). |
 | `CWS Origin Scout.scriptable` | Helper agent: look up any origin or process on demand. |

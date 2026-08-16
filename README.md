@@ -41,7 +41,7 @@ Together these move grind confidence away from "stare at the grounds and guess" 
 
 - **19 origins** — Ethiopia, Kenya, Colombia, Peru, Brazil, Guatemala, Costa Rica, Rwanda/Burundi, Panama Gesha, Yemen, Saudi Arabia (Khawlani), Indonesia/Sumatra, Honduras, El Salvador, India, Tanzania/Uganda, Mexico, Thailand, and an "other / unsure" catch-all.
 - **7 processes** — Washed, Honey, Natural, Anaerobic, Co-fermented/Infused, Wet-hulled (Sumatra), Decaf.
-- **42 grinders** — hand and electric, including the Saudi market (Comandante, 1Zpresso, Timemore hand + Sculptor, Kingrinder K0–K6, MHW-3Bomber, Fellow, Baratza, DF64, Varia, MIBRU). Each shows settings in its own real format — clicks, numbers, rotations, or number-plus-micro-clicks (e.g. the Fellow Opus reads "6 +2", the way its dial actually works).
+- **42 grinders** — hand and electric, including the Saudi market (Comandante, 1Zpresso, Timemore hand + Sculptor, Kingrinder K0–K6, MHW-3Bomber, Fellow, Baratza, DF64, Varia, MIBRU). Each shows settings in its own real format — clicks, numbers, rotations, or number-plus-micro-clicks (e.g. the Fellow Opus reads "5 · 2 clicks", the way its dial actually works).
 - **5 brewers** — V60, Kalita Wave, Chemex, AeroPress, Switch.
 - **Methods** — Hoffmann Ultimate V60, Tetsu Kasuya 4:6 (strength sets the pour count), a locally-calibrated Osamah method, and 50/50; hot and iced (flash).
 - **Machine sheets** — Fellow Aiden and xBloom, with per-pour temperature profiling.

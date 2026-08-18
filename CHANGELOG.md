@@ -7,6 +7,66 @@ The format is simple on purpose: each version lists what was **Added**, **Change
 
 ---
 
+## v1.7.6 — 2026-08-16
+
+Full consistency audit pass.
+
+### Fixed
+- The machine-view temperature label "Mixed" (shown when a machine varies temperature per pour) was not translated — it now reads "متغيّرة" in Arabic.
+
+### Verified (no changes needed)
+- Engine swept across 10,500 combinations (every grinder × roast × style × brewer × hot/iced): zero errors, all grind/temp/water/pour invariants hold.
+- Both languages checked across every brew style, iced mode, taste-advice screen, and view — no English leaking into Arabic or vice versa.
+- Persistence, update checker, offset clamping, blend mode, and extreme inputs all pass.
+- Brewing science re-verified: roast, dose, strength, freshness, and brewer relationships all correct.
+
+---
+
+## v1.7.5 — 2026-08-16
+
+### Changed
+- **Everyday Balanced is now a genuinely distinct method** — a bloom plus three small, even, evenly-spaced pours (little-and-often, keep-the-bed-wet). Previously it shared Hoffmann's 60/40 two-pour split with only a slower time; now the pour structure and rhythm are their own, with a realistic 2:40–3:10 drawdown.
+
+### Fixed
+- Removed the redundant coffee-name header at the top of the recipe card (above "Why this recipe?"). The same detail already shows right above the Temp/Water metrics.
+- The Brew Time value no longer overflows its card on narrow screens.
+
+---
+
+## v1.7.4 — 2026-08-16
+
+### Changed
+- **New default brew: "Everyday Balanced"** — a bloom and two calm, even pours. It's the most forgiving way to a clean, balanced cup, designed so a newcomer can't easily get it wrong (no fast first pour, no five-pulse sequencing, no stirring).
+- **Removed the duplicate "Balanced · Kasuya 4:6"** style, which produced the same brew as the sweeter variant. Kasuya now appears only as its two genuinely distinct flavour-steering options — Fruity (bigger first pour) and Sweeter (smaller first pour).
+
+Brew styles are now: Everyday Balanced (default), Fruity · Kasuya 4:6, Sweeter · Kasuya 4:6, Classic · Hoffmann, and Osamah Alawwam.
+
+---
+
+## v1.7.3 — 2026-08-16
+
+Beginner onramp and brew-detail visibility.
+
+### Changed
+- **The default brew is now the forgiving Kasuya 4:6**, not Hoffmann. The 4:6's small, evenly spaced pours are much easier for newcomers to execute well. Hoffmann is still available as "Classic · Hoffmann" for when you want it.
+- **Freshness reads realistically.** Coffee now stays "aging" (still good, just softening) for about six weeks past peak instead of three, and the past-peak message is gentler — faded coffee is still good coffee, not a write-off.
+
+### Added
+- **The coffee you're brewing now shows right above the Temp/Water cards** — origin (or saved-bag name), brewer, style, and dose — so every detail is visible where the numbers are.
+- **A final "Drain" step in the pour timeline** for pour-over brewers: it tells you to stop pouring and let the bed draw down, with the target finish time. Immersion brewers keep their own press/release step.
+
+---
+
+## v1.7.2 — 2026-08-16
+
+### Added
+- **Dose now shows in the recipe readout cards** (right after Water), so you can see grams without scrolling back up.
+
+### Fixed
+- The dial-in trail no longer appears when no coffee is loaded — it only shows once you've loaded a saved bag, since a trail belongs to a specific coffee.
+
+---
+
 ## v1.7.1 — 2026-08-16
 
 Accuracy and dial-in polish.

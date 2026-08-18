@@ -1,4 +1,4 @@
 {
-  "version": "1.7.1",
-  "notes": "Opus grind reads in real dial format, undo dial-in step, finish advice logs as a step, layout fixes, update checker live."
+  "version": "1.7.6",
+  "notes": "Full consistency audit: fixed one untranslated label (Mixed temperature). Everything else verified across 10,500 combinations and both languages."
 }

@@ -1,4 +1,4 @@
 {
-  "version": "1.8.0",
-  "notes": "Fellow Opus corrected to its real dial: 3 clicks between each number (9\u00b71, 9\u00b72, 9\u00b73), not 2. Calibration now accepts all three click positions."
+  "version": "1.8.2",
+  "notes": "Scriptable now shows an update notice that opens the repo to download the new file (no more white screen). Web still reloads in place."
 }

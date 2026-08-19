@@ -7,6 +7,20 @@ The format is simple on purpose: each version lists what was **Added**, **Change
 
 ---
 
+## v1.8.2 — 2026-08-19
+
+### Changed
+- **The Scriptable app now handles updates gracefully.** When a new version is out, it shows an "update available — Get it" notice that opens the GitHub repo in Safari, where you download the new `.scriptable` file and re-import it. (Scriptable can't replace its own code, so this is the honest path.) The web version still reloads in place. This replaces the earlier behaviour where tapping the update blanked the screen.
+
+---
+
+## v1.8.1 — 2026-08-19
+
+### Fixed
+- **White screen when tapping the update banner in the Scriptable app.** The update banner was appearing inside Scriptable (its network check runs there), but tapping Reload tried to navigate a page that was loaded from local code rather than a URL, blanking the screen. The update check and reload are now correctly limited to the web version, where they belong. The Scriptable version updates by re-importing the file, as before.
+
+---
+
 ## v1.8.0 — 2026-08-19
 
 ### Fixed

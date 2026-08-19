@@ -192,10 +192,11 @@ h1{font-family:ui-serif,'New York',Georgia,'Noto Serif',serif;font-size:34px;fon
 <div id="gsetupOverlay" class="gso" style="display:none"></div>
 <div id="timerOverlay" class="tov"><div class="tov-inner"><div class="tov-eyebrow" id="tEyebrow">Pour timer</div><div class="tov-ring-wrap"><svg class="tov-ring" viewBox="0 0 240 240"><circle class="tov-ring-bg" cx="120" cy="120" r="108"/><circle class="tov-ring-fg" id="tRing" cx="120" cy="120" r="108"/></svg><div class="tov-ring-center"><div class="tov-state" id="tState">POUR</div><div class="tov-time" id="tTime">0:00</div><div class="tov-target" id="tTarget"></div></div></div><div class="tov-note" id="tNote"></div><div class="tov-next" id="tNext"></div><div class="tov-steps" id="tSteps"></div><div class="tov-ctrls"><button id="tPause" class="tov-btn">Pause</button><button id="tSkip" class="tov-btn">Skip</button><button id="tReset" class="tov-btn">Reset</button><button id="tClose" class="tov-btn tov-close">Close</button></div></div></div>
 <script>
-var APP_VERSION="1.8.0";
+var APP_VERSION="1.8.2";
 // To enable update checks: set this to the raw URL of version.json in your repo,
 // e.g. "https://raw.githubusercontent.com/USER/REPO/main/version.json". Leave "" to disable.
 var VERSION_URL="https://raw.githubusercontent.com/amalwahieb/coffee-Way-Standard/main/version.json";
+var REPO_URL="https://github.com/amalwahieb/coffee-Way-Standard";
 
 // ============ ENGINE (identical to the app) ============
 const ROASTS=[{id:"light",label:"Light",temp:99,grind:"Medium-fine",notch:-2,agit:"high",bloomMult:2.2,rest:[10,24]},{id:"med-light",label:"Med-Light",temp:96,grind:"Medium-fine",notch:-1,agit:"high",bloomMult:2.1,rest:[8,21]},{id:"medium",label:"Medium",temp:93,grind:"Medium",notch:0,agit:"medium",bloomMult:2.0,rest:[6,18]},{id:"med-dark",label:"Med-Dark",temp:90,grind:"Medium-coarse",notch:1,agit:"low",bloomMult:2.0,rest:[4,14]},{id:"dark",label:"Dark",temp:88,grind:"Coarse",notch:2,agit:"low",bloomMult:2.0,rest:[3,10]}];
@@ -859,9 +860,14 @@ document.getElementById("tClose").addEventListener("click",function(){if(tElapse
 function cmpVer(a,b){var pa=String(a).split(".").map(Number),pb=String(b).split(".").map(Number);for(var i=0;i<3;i++){var x=pa[i]||0,y=pb[i]||0;if(x>y)return 1;if(x<y)return -1;}return 0;}
 function showUpdateBanner(newV){
   var el=document.getElementById("updateBanner");if(!el)return;
-  el.innerHTML=P("A new version ("+newV+") is available. ","فيه إصدار جديد ("+newV+") متوفر. ")+'<button class="updbtn" data-doupdate="1">'+P("Reload","تحديث")+'</button> <button class="updx" data-updignore="1">✕</button>';
+  if(isWebContext()){
+    el.innerHTML=P("A new version ("+newV+") is available. ","فيه إصدار جديد ("+newV+") متوفر. ")+'<button class="updbtn" data-doupdate="1">'+P("Reload","تحديث")+'</button> <button class="updx" data-updignore="1">✕</button>';
+  }else{
+    el.innerHTML=P("A new version ("+newV+") is available. ","فيه إصدار جديد ("+newV+") متوفر. ")+'<button class="updbtn" data-getupdate="1">'+P("Get it","حمّله")+'</button> <button class="updx" data-updignore="1">✕</button>';
+  }
   el.style.display="";
 }
+function isWebContext(){try{return (location.protocol==="http:"||location.protocol==="https:");}catch(e){return false;}}
 function checkForUpdate(){
   if(!VERSION_URL)return;
   try{
@@ -871,9 +877,9 @@ function checkForUpdate(){
   }catch(e){}
 }
 (function(){var ub=document.getElementById("updateBanner");if(ub){ub.addEventListener("click",function(e){
-  if(e.target.closest("[data-doupdate]")){
+  if(e.target.closest("[data-getupdate]")){try{window.OPEN_URL=REPO_URL;}catch(_){}try{if(isWebContext()){window.open(REPO_URL,"_blank");}}catch(_){}var ubg=document.getElementById("updateBanner");if(ubg)ubg.style.display="none";return;}if(e.target.closest("[data-doupdate]")){
     try{if("caches" in window){caches.keys().then(function(ks){ks.forEach(function(k){caches.delete(k);});});}}catch(_){}
-    var u=location.href.split("#")[0];u+=(u.indexOf("?")>=0?"&":"?")+"v="+Date.now();location.replace(u);
+    if(!isWebContext()){var ub2=document.getElementById("updateBanner");if(ub2)ub2.style.display="none";return;}var u=location.href.split("#")[0];u+=(u.indexOf("?")>=0?"&":"?")+"v="+Date.now();location.replace(u);
   }
   if(e.target.closest("[data-updignore]")){ub.style.display="none";window.PENDING_VER=null;}
 });}})();
@@ -964,6 +970,10 @@ if (config.runsInWidget) {
       const out = await wv.evaluateJavaScript("window.SAVE_DATA || 'null'");
       everAlive = true; failCount = 0;
       if (out && out !== "null" && out !== lastWritten) { store.writeString(path, out); lastWritten = out; }
+      try {
+        const openReq = await wv.evaluateJavaScript("(function(){var u=window.OPEN_URL||'';window.OPEN_URL=null;return u;})()");
+        if (openReq && /^https?:\/\//.test(openReq)) { Safari.open(openReq); }
+      } catch (e) {}
     } catch (e) {
       failCount++;
       // Heal ONLY a page that was previously alive — never during a cold start — and at most twice

@@ -7,6 +7,13 @@ The format is simple on purpose: each version lists what was **Added**, **Change
 
 ---
 
+## v1.8.0 — 2026-08-19
+
+### Fixed
+- **Fellow Opus corrected to its real dial.** The Opus has *three* clicks between each number (position, then click 1, 2, 3, then the next number) — the app had it as two. Now 9·1, 9·2, and 9·3 are all valid settings, and calibrating to "9.3" correctly shows "9 · 3 clicks" instead of rolling over to 10. Only 9.4 and up advance to the next number, which is physically correct.
+
+---
+
 ## v1.7.9 — 2026-08-18
 
 ### Added

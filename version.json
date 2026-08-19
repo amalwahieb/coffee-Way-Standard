@@ -1,4 +1,4 @@
 {
-  "version": "1.7.9",
-  "notes": "App can now be added to your home screen (installable PWA) with its own icon and full-screen launch."
+  "version": "1.8.0",
+  "notes": "Fellow Opus corrected to its real dial: 3 clicks between each number (9\u00b71, 9\u00b72, 9\u00b73), not 2. Calibration now accepts all three click positions."
 }

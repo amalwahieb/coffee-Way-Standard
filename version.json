@@ -1,4 +1,4 @@
 {
-  "version": "1.7.6",
-  "notes": "Full consistency audit: fixed one untranslated label (Mixed temperature). Everything else verified across 10,500 combinations and both languages."
+  "version": "1.7.9",
+  "notes": "App can now be added to your home screen (installable PWA) with its own icon and full-screen launch."
 }

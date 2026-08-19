@@ -7,6 +7,36 @@ The format is simple on purpose: each version lists what was **Added**, **Change
 
 ---
 
+## v1.7.9 — 2026-08-18
+
+### Added
+- **The app can now be added to your home screen.** On the GitHub Pages link, "Add to Home Screen" (Safari, on iPhone) installs Coffee Way Standard with its own coffee icon and opens it full-screen, like a native app — no browser address bar. This activates the existing manifest and icons, which now need to be in the repo root alongside index.html.
+
+---
+
+## v1.7.8 — 2026-08-18
+
+### Fixed
+- **Fellow Opus now uses its real third-marks.** Each number on the Opus dial has two intermediate ticks (three positions per number), and the app now lands on them — 6, 6·1, 6·2, 7, and so on — instead of snapping to whole numbers only. Grind adjustments for roast and dose now use the full precision the grinder actually has.
+- **Opus calibration accepts click positions.** When telling the app what you dial, you can enter a click past a number as 9.1 or 9.2 (nine plus one or two clicks), and it round-trips exactly.
+
+### Changed
+- **The consistency agent now runs 11,000+ checks across 17 categories** (was 260): a full no-crash sweep, bloom scaling, drain timing, grind-calibration round-trips including micro-click grinders, micro-display integrity, in-range grinds, pour-volume math, temperature science, roast/iced/strength relationships, persistence, and data integrity. Run it after any change with `node consistency-agent.js` — it exits with an error if anything is inconsistent.
+
+---
+
+## v1.7.7 — 2026-08-18
+
+### Fixed
+- **Fellow Opus grind now snaps to clean settings.** Its dial was misaligned to a half-step grid that clashed with the grinder's real thirds, so calibrating to a whole number like 9 got stuck on fractional values (9.2, 9.1). The Opus now sits on whole numbers, and calibration round-trips exactly — dial 9, it shows 9.
+- **The drain step now starts when pouring ends** (right after the last pour), not 30 seconds later — the finish window is when the draining *completes*, which is the correct relationship.
+- **The drain step no longer shows a water amount** — it's a "stop pouring and wait" marker, not a pour.
+
+### Added
+- **A consistency agent** (`consistency-agent.js`) that runs 260 physical-sanity checks after any change: bloom scales with dose, drain timing is correct, grind calibration round-trips (including micro-click grinders), pour volumes are monotonic and hit total water, and temperatures stay in range. Run it with `node consistency-agent.js`.
+
+---
+
 ## v1.7.6 — 2026-08-16
 
 Full consistency audit pass.

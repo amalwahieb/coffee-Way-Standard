@@ -7,6 +7,23 @@ The format is simple on purpose: each version lists what was **Added**, **Change
 
 ---
 
+## v1.8.7 — 2026-08-20
+
+### Fixed
+- **Drain and finish times now scale with your dose.** Previously the finish window and drain marker were the same regardless of whether you brewed 15g or 40g. But a bigger dose means a deeper coffee bed, which drains slower (Darcy's law — more grounds, more resistance). The finish window now stretches later as dose grows: an everyday brew finishes around 2:40–3:10 at 15g and 3:00–3:30 at 40g, matching the well-documented rule that a 15g V60 finishes near 2:30 and a 30g brew near 3:30.
+- **The drain marker now sits where drawdown actually begins** — right after the last pour — instead of an arbitrary fixed offset. The finish window is when the dripping completes. This also fixes the Classic (Hoffmann) method, whose front-loaded pours finish early: its drain no longer appears with a confusing dead gap before the real finish.
+
+The drawdown phase (last pour → cup done) now lands in the 30–90-second range the research describes, and grows with dose as it should.
+
+---
+
+## v1.8.6 — 2026-08-20
+
+### Fixed
+- **The finish-time "Log this — go 1 step coarser/finer" button now works.** When you entered a finish time outside the target window, the button appeared but tapping it did nothing — the entry wasn't recorded. The button's tap was being handled by the wrong part of the screen (it sits in the "after the brew" section, but its action was wired to the recipe card above it). It now logs the finish result to the bag's dial-in history as intended.
+
+---
+
 ## v1.8.5 — 2026-08-20
 
 ### Changed

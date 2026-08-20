@@ -7,6 +7,13 @@ The format is simple on purpose: each version lists what was **Added**, **Change
 
 ---
 
+## v1.8.3 — 2026-08-20
+
+### Added
+- **Vietnam as a coffee origin.** Vietnam is the world's #2 coffee producer and its beans (mostly robusta) are widely sold, but the app didn't cover it. Vietnam now appears in the origin list with robusta-aware guidance: because robusta is bold, very low in acidity, and turns bitter easily, the recipe leans **cooler and coarser with gentle pours** (the same proven calibration as Indonesia/Sumatra). The tasting notes reflect its real character — dark chocolate, roasted nut, cocoa bitterness, heavy body. The tip also points specialty Vietnamese arabica drinkers (from Da Lat) to treat it more like a regular origin. Fully bilingual (English / العربية).
+
+---
+
 ## v1.8.2 — 2026-08-19
 
 ### Changed

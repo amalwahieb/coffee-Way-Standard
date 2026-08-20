@@ -7,6 +7,20 @@ The format is simple on purpose: each version lists what was **Added**, **Change
 
 ---
 
+## v1.8.5 — 2026-08-20
+
+### Changed
+- **The Scriptable update notice now explains how to update.** Tapping "Get it" now shows three short steps (open the page → tap download → open the file in Scriptable) before opening the repo, so someone who doesn't know GitHub isn't left guessing. Fully bilingual. The web version is unchanged — it still reloads in place.
+
+---
+
+## v1.8.4 — 2026-08-20
+
+### Fixed
+- **"Everyday Balanced" now shows in Arabic** (يومي متوازن). The method name had no Arabic translation, so it stayed in English when the app was in Arabic — the only such label. All five brew styles now display correctly in both languages.
+
+---
+
 ## v1.8.3 — 2026-08-20
 
 ### Added

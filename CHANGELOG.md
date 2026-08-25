@@ -7,6 +7,67 @@ The format is simple on purpose: each version lists what was **Added**, **Change
 
 ---
 
+## v1.9.2 — 2026-08-20
+
+### Changed
+- **The grind engine was rebuilt around a clearer structure.** Every influence on the grind — roast, origin, brewer, brew style, freshness, dose and your own dial-in — is now assembled in one explicit place instead of a single dense expression, and each can be adjusted independently. Results are unchanged: the rebuilt engine was compared against the previous one across 50,460 combinations and produces identical settings. This removes the fragility behind several recent grind bugs.
+- **Drain timing now matches how fast each method actually pours.** Gentler methods (Kasuya 4:6, the everyday recipe) pour slower than Hoffmann's deliberately quick pours, so the drain no longer appears a few seconds too early on the gentler recipes.
+
+### Added
+- **A full test suite now ships with the app** (`tests/`). One command checks that every brew style, origin, roast, brewer and all 42 grinders produce valid recipes; that the pour schedule is physically possible; that changing the dose never jumps the grind; and that outdated saved data can't break anything. Run it with `node tests/run-all.js`.
+
+### Verified
+Tests are now tuned to the real brewing range of 15–50g rather than an unrealistic 1–100g, so the thresholds reflect how the app is actually used. Full suite passes, plus a first-run check (no saved data), all brew styles in both languages with no untranslated text, smooth dose stepping from 15g to 50g, and correct large-dose pour schedules.
+
+---
+
+## v1.9.1 — 2026-08-20
+
+### Fixed
+- **Large doses now produce pourable recipes.** For big brews (roughly 30g and up), a single pour could call for far more water than you can physically pour at once — e.g. a 40g Hoffmann asked for a 320ml pour, and a 100g brew asked for nearly 500ml in one go. Those pours are now automatically split into pourable amounts (around 160–200ml each), spaced with enough time to actually pour them, so the timeline stays realistic all the way up to 100g. Normal single-cup doses (about 15–25g) are completely unchanged.
+
+### Verified — full 1g-to-100g sweep
+Ran a comprehensive agent across every dose from 1g to 100g combined with every brew style, brewer, strength, and hot/iced — 5,000 recipes — checking each one for physically valid pours: no unpourable volumes, realistic pour timing, correct water ratios, proper bloom, and sensible drain and finish. All pass. The agent also confirms bigger dose always drains later (Darcy's law) and that no combination crashes or produces invalid output.
+
+---
+
+## v1.9.0 — 2026-08-20
+
+### Fixed (this corrects a real bug I previously called "working as designed")
+- **Changing the dose now nudges the grind smoothly instead of jumping.** On click-dial grinders like the Fellow Opus, increasing the dose by a gram or two used to make the shown grind leap by two clicks at once — and skip the click positions in between (e.g. jump from "8 and 2 clicks" straight to "9", never showing "8 and 3 clicks"). That was wrong: the real dial can sit at every click, and a one-gram change shouldn't move the grind that far. The dose effect is now continuous and gentle — it moves at most one click per step, in order, and shifts the grind by only about one number across the whole 15–40g range, which matches how dose actually affects a pour-over (a bigger dose means a deeper bed, so a slightly coarser grind — Darcy's law).
+
+### Why this is a proper fix, not another patch
+The underlying cause was that one setting ("step") was doing two jobs at once: controlling how far a *roast* change moves the grind **and** how far a *dose* change moves it. Those need to behave differently — roast should span a couple of numbers across light-to-dark, while dose should barely move. They're now separate: roast, origin and freshness still move the grind in the grinder's real steps, while dose applies a small continuous adjustment on top. Roast still spans its full range (light to dark), dose now moves in single clicks, and every one of the 42 supported grinders was re-checked.
+
+### Verified
+Added a permanent test that steps the dose one gram at a time across every click-dial grinder and every calibration, confirming the grind never jumps more than one click and always moves the correct direction (bigger dose = coarser). All pass, alongside the full grinder, error-injection, and engine sweeps.
+
+---
+
+## v1.8.9 — 2026-08-20
+
+### Fixed
+- **1Zpresso K-Max and ZP6 now use their real "number + clicks" dials.** They were modelled as fractional rotation settings, which was both inaccurate and caused the shown setting to drift slightly past the dial's real limits. Both now read the way the physical grinders do — a number plus clicks (e.g. "5 and 2 clicks"), with 10 clicks between each number — matching 1Zpresso's own charts and champion recipes. Their pour-over starting points now land where they should (K-Max around 7, ZP6 around 5).
+- **Grind settings no longer overshoot a grinder's min/max.** On grinders with fractional steps, an extreme dial-in could display a value just past the lowest or highest real setting (e.g. showing "0.9" on a grinder whose minimum is 1). Settings are now clamped to the true range after rounding.
+- **The engine is now hardened against bad or outdated saved data.** If a saved bag ever referenced an option that was later renamed or removed, or held an out-of-range dose, the app now falls back to a sensible default instead of failing. This makes older saved bags safe to open across app updates.
+
+### Verified
+Comprehensive audit across all 42 supported grinders — every one checked for correct build, dial-in direction (finer/coarser), min/max clamping, and calibration round-trip — plus deliberate bad-input testing (garbage doses, extreme adjustments, stale values). All pass.
+
+---
+
+## v1.8.8 — 2026-08-20
+
+### Fixed
+- **The dial-in "go 1 step coarser/finer" button now actually moves the grind.** Before, it only logged your note but left the grind setting unchanged — so calibrating to 9 and tapping "coarser" still showed 9. It now shifts the recipe by exactly one click on a click-grinder like the Fellow Opus (9 → 9·1 → 9·2 …) and records the change.
+- **The pour timeline no longer shows impossible drain windows.** On some recipes (e.g. Kasuya Sweeter) the last pour and the drain were only ~5 seconds apart even though the pour added ~90ml — which you can't physically pour that fast. The drain marker now accounts for how long the final pour actually takes (based on its volume), so the timing is realistic.
+- **The Scriptable update instructions are clearer and land you on the right file.** The notice now spells out the fastest real path — tap the ⋯ (three dots) menu on the file, then Download — and the "Open the file" button links straight to the .scriptable file instead of the repo's front page.
+
+### Note on the Fellow Opus
+The Opus grind ladder (each roast/dose step moving in its real click positions) is working as designed. A one-gram dose change can occasionally cross a click boundary and shift the shown clicks — that reflects how the physical stepped dial actually behaves, not a rounding error.
+
+---
+
 ## v1.8.7 — 2026-08-20
 
 ### Fixed

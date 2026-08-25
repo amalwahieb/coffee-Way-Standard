@@ -1,4 +1,4 @@
 {
-  "version": "1.8.7",
-  "notes": "Drain and finish times now scale with dose (bigger dose drains slower \u2014 Darcy law), and the drain marker sits at the true start of drawdown. Fixes the Hoffmann early-drain gap."
+  "version": "1.9.2",
+  "notes": "Pre-launch hardening: the grind engine was rebuilt for clarity (same results, verified), the drain timing now matches each method pour speed, and a full automated test suite now ships with the app."
 }

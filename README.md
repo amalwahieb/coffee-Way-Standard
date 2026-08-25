@@ -106,3 +106,13 @@ Every precise number in this app is either cited to a named method (Hoffmann, Ka
 ---
 
 *Coffee Way Standard is a personal project, shared for anyone who wants a repeatable, honest pour-over.*
+
+## Tests
+
+Automated checks live in `tests/`. Run them all with:
+
+```
+node tests/run-all.js
+```
+
+See `tests/README.md` for what each file covers.

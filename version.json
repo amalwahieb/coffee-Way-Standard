@@ -1,4 +1,4 @@
 {
-  "version": "1.9.2",
-  "notes": "Pre-launch hardening: the grind engine was rebuilt for clarity (same results, verified), the drain timing now matches each method pour speed, and a full automated test suite now ships with the app."
+  "version": "1.9.3",
+  "notes": "Grinder overhaul: 22 grinders re-checked against manufacturer documentation and corrected. The Fellow Ode now has its real click dial, and several grinders were pointing at the wrong grind entirely."
 }

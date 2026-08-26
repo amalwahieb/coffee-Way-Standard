@@ -7,6 +7,26 @@ The format is simple on purpose: each version lists what was **Added**, **Change
 
 ---
 
+## v1.9.3 — 2026-08-26
+
+### Fixed — grinder settings overhaul
+Twenty-two grinders were re-checked against manufacturer documentation and corrected. Each now starts at the published V60 setting for a medium roast.
+
+- **Fellow Ode Gen 1 and Gen 2 had no click system at all.** Fellow's dial has 11 numbers with two clicks between each (31 steps, read as 5, 5·1, 5·2, then 6). The app modelled it as plain half-number steps, so it could never show a setting your dial actually sits on. Both now read like the real grinder.
+- **Timemore Chestnut X** started at 24 when the documented pour-over setting is around 60 — less than half the right grind.
+- **1Zpresso J-Max / J-Ultra** started at 90 clicks when the documented setting is around 210.
+- **Baratza Encore and Virtuoso+** started 5–7 numbers too coarse. Baratza's own table puts V60 at 15; the app said 20 and 22. The roast ladder now reads 13 / 15 / 17, matching Baratza's guidance.
+- **1Zpresso JX-Pro, X-Pro/X-Ultra and J-Max** had the wrong number of clicks per number, so one adjustment step moved the wrong distance on the dial.
+- **Niche Zero** started at 25 when owners put pour-over at 35–45.
+- **Baratza Sette 270** gained its real two-part dial (30 macro settings with 9 micro positions between each).
+
+Fellow Opus was checked and was already correct.
+
+### Added
+- `GRINDERS.md` — every grinder documented with its real adjustment system and the source it was checked against, so a setting never has to be guessed at again.
+
+---
+
 ## v1.9.2 — 2026-08-20
 
 ### Changed

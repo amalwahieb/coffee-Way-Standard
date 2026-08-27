@@ -7,6 +7,26 @@ The format is simple on purpose: each version lists what was **Added**, **Change
 
 ---
 
+## v1.9.5 — 2026-08-27
+
+### Fixed
+- **The update instructions were unreadable.** Words like "Open the file", "⋯" and "Download" were being pushed onto their own lines in the middle of sentences, so the steps ran together and were hard to follow. The banner was laid out as a single row, which made every emphasised word break away on its own. The steps now render as a proper numbered list.
+- **Rewritten as four clear steps**, matching what you actually see on GitHub: tap Open the file, tap the ⋯ at the top right corner, press Download and save the file, then open it in Scriptable to save the new version and delete the old one.
+
+Both languages verified.
+
+---
+
+## v1.9.4 — 2026-08-26
+
+### Added
+- **"I don't see my grinder" is now an option in the grinder list itself** — right at the bottom, where you land after scanning for yours. It opens the setup directly. The button underneath now reads "Set up or add a grinder", so it's clear it does both jobs.
+- **You can add a grinder in seconds and start brewing.** Adding a grinder previously required completing a taste test before it would save — which meant you couldn't get a recipe until you'd already brewed a cup, and you couldn't brew a cup without a grind setting. There's now a "Just add it — I'll dial it in later" option: give it a name and its range, and you get a working starting point immediately. The taste test is still there for anyone who wants a more precise result, and the normal "go 1 step coarser/finer" buttons refine it from your first brew onward.
+
+Both are fully bilingual.
+
+---
+
 ## v1.9.3 — 2026-08-26
 
 ### Fixed — grinder settings overhaul

@@ -1,4 +1,4 @@
 {
-  "version": "1.9.3",
-  "notes": "Grinder overhaul: 22 grinders re-checked against manufacturer documentation and corrected. The Fellow Ode now has its real click dial, and several grinders were pointing at the wrong grind entirely."
+  "version": "1.9.5",
+  "notes": "The update instructions now read as four clean numbered steps instead of breaking apart mid-sentence."
 }

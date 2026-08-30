@@ -7,6 +7,54 @@ The format is simple on purpose: each version lists what was **Added**, **Change
 
 ---
 
+## v2.0.0 — 2026-08-27
+
+### Changed
+- **The most coffee you can use is now set by your brewer.** It used to be a flat 100g for everything, which is meaningless — an AeroPress physically cannot hold 100g of coffee. Each brewer now carries its real capacity: 60g for a V60, 45g for a Kalita Wave, 90g for a Chemex, 42g for an AeroPress (the practical limit of its chamber) and 30g for a Switch. Moving to a smaller brewer brings the dose down with it, so switching from a Chemex at 90g to an AeroPress lands at 42g instead of leaving a recipe that could never be brewed.
+- **Brewing machines set their own limit.** If you're using the Machine page, the machine decides how much coffee fits rather than the dripper picked on the Build page. The xBloom Studio has a stated maximum of 25g — well below every manual brewer, so the app could previously have suggested a dose that physically cannot be loaded. The Fellow Aiden goes the other way at 88g, the most its 1.5-litre tank can take, making it the only thing in the app that holds more coffee than a Chemex.
+
+### Fixed
+- **Typing a dose could bypass the limit.** The +/− buttons respected it, but a typed value went straight into the recipe and was only corrected when the field lost focus — which on a phone often never happens. Typing 500 produced a 2.5-litre recipe. The upper limit now applies as you type, while the lower one is still applied when you finish, so entering "45" doesn't jump to 8 halfway through. The same fix covers the days-since-roast field.
+
+---
+
+## v1.9.9 — 2026-08-27
+
+### Fixed
+- **The clicks-between-numbers question skipped values.** It offered 1, 2, 3 and 9 clicks, which covered only the grinders already built into the app. Real grinders sit in the gaps — the 1Zpresso X-Pro has 5 clicks between numbers and the Baratza Sette has 8 — so those owners had no correct answer. It now runs 1 through 9 with nothing missing.
+- **The lowest and highest settings had no limits at all**, so a typo could create a grinder with a range of 0 to 5000 and a nonsensical recipe. The range is now checked against what real grinders actually have, based on the widest models in each style: up to 600 clicks (the widest is the 1Zpresso J-Ultra at 500), up to 100 numbers (the widest numbered dial is the Breville Smart Grinder Pro at 60), and up to 15 turns (no hand grinder exceeds about 5 rotations). Each leaves room for grinders that don't exist yet, and you're told plainly if a number is out of range.
+
+---
+
+## v1.9.8 — 2026-08-27
+
+### Fixed
+- **Adding your own grinder couldn't handle a dial with clicks between the numbers.** If you added a grinder like the Fellow Opus yourself, the app could only ever show whole numbers — there was no way to express "6 and 2 clicks". That's the same fault that affected the built-in Fellow Ode, sitting inside the one place that's meant to cover every grinder. Setup now asks how many clicks sit between each number — anything from 1 to 9 — and a grinder added this way behaves exactly like a built-in one: adding an Opus by hand now produces the identical settings to the built-in entry, stepping one click at a time.
+
+### Added
+- **"Turns" as a third way to measure a grinder**, for the ones with no numbers on the dial at all (DF64, Kinu, Eureka and similar). Close the burrs until they just touch — that's zero — then count turns as you open back out. Setup explains this when you pick it. Those grinders now give a real number you can set and repeat, like "1.8 turns", instead of a description you have to interpret.
+
+---
+
+## v1.9.7 — 2026-08-27
+
+### Fixed
+Every remaining grinder was checked for the same fault that affected the Fellow Ode — a dial with clicks between its numbers being treated as plain numbers, which is invisible in use because the app still shows a believable setting. Two were wrong.
+
+- **Timemore Chestnut X** was modelled as a count of around 60 clicks. The grinder is actually read on a macro dial numbered 1–23, with a separate micro ring for fine tuning, and pour-over sits at 15–19 on that dial. It now shows the number you'd actually set.
+- **Timemore Sculptor 064 and 078 were listed together with the 064S and 078S**, but Timemore's own documentation says the plain models are stepped (you feel the dial click) while the S models are stepless (no clicks at all). They are different machines. The stepped models now have their own settings, and the stepless S models have their own entry.
+
+The other 27 were confirmed correct: Comandante, Kingrinder, MHW-3Bomber, Timemore C2/C3, Porlex and the 1Zpresso range all count clicks from burr contact with no numbered sub-dial, and Baratza, Breville, Wilfa, OXO and the budget electrics have discrete numbered steps with nothing between them.
+
+---
+
+## v1.9.6 — 2026-08-27
+
+### Fixed
+- **The finish-time adjustment could be applied over and over.** After entering a slow finish time, the "go 1 step coarser" button stayed tappable — so tapping it three times moved the grind three steps and wrote three entries, all from a single measurement. Tapping it now applies the change once and replaces the button with a confirmation. It becomes available again when you enter a finish time from your next brew, so each adjustment is tied to the brew that justified it.
+
+---
+
 ## v1.9.5 — 2026-08-27
 
 ### Fixed

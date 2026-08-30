@@ -1,4 +1,4 @@
 {
-  "version": "1.9.5",
-  "notes": "The update instructions now read as four clean numbered steps instead of breaking apart mid-sentence."
+  "version": "2.0.0",
+  "notes": "The most coffee you can use now comes from your brewer, or from your machine if you use one - so the app cannot suggest a dose that will not fit."
 }

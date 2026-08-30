@@ -143,6 +143,105 @@ was already the right model. Two notes were corrected:
 
 ---
 
+## Plain-number grinders — audited for hidden click dials
+
+The Fellow Ode bug was a grinder whose dial has clicks between its numbers being
+modelled as plain numbers. That is invisible in use — the app still shows a
+believable number — so all 29 plain-number entries were checked for the same
+fault. Two were wrong.
+
+**Confirmed correct (count clicks from burr contact, no numbered sub-dial):**
+Comandante C40 and Red Clix, Timemore Chestnut C2/C3, Porlex, MIBRU manual,
+MHW-3Bomber R3/M1 (external click adjustment, 16µm per click), Kingrinder K6/K4
+and K0/K1/K2. KINGrinder's own guide is explicit that the printed numbers do not
+match the click count and you should count clicks from zero — which is exactly
+what the app does.
+
+**Confirmed correct (discrete numbered steps, nothing between them):**
+Baratza Encore, Encore ESP, Virtuoso+ (40-step collar), Breville Smart Grinder
+Pro (60 steps), Wilfa Uniform (41 steps), OXO Brew (15 steps), Bodum, Capresso,
+Cuisinart.
+
+**Confirmed correct (multi-rotation, read as total clicks):**
+1Zpresso Q2, JX-Pro, J-Max/J-Ultra, X-Pro/X-Ultra.
+
+### Corrected
+
+**Timemore Chestnut X** — was modelled as roughly 60 clicks. The grinder is
+actually read on a macro dial numbered 1–23 with a separate micro ring, and
+documented pour-over sits at 15–19 on that macro dial. Now base 17, range 1–23,
+shown as a number rather than a click count.
+
+**Timemore Sculptor** — the app listed "064 / 064S" and "078 / 078S" together, but
+Timemore's own FAQ states the 064 and 078 are **stepped** ("you can feel the dial
+clicking") while the 064S and 078S are **stepless** ("you will not feel any
+clicking"). Those are different machines. The stepped models are now their own
+entries at base 9 (documented pour-over 7–12), and a separate stepless entry was
+added for the S variants.
+
+Sources: timemore.com Sculptor product page and Sculptor FAQ; kingrinder.com
+exterior adjustment guide; brewcoffeehome.com K6 review; honestcoffeeguide.com
+and beeancoffee.com grind-setting charts; coffeechronicler.com grind size chart.
+
+## Limits when adding your own grinder
+
+The setup form used to accept any two numbers, so a typo could create a grinder
+with a range of 0–5000. These caps come from the widest real grinders, with room
+left for models that don't exist yet.
+
+| Unit | Widest real grinder | Cap |
+|---|---|---|
+| clicks | 1Zpresso J-Ultra — 5 rotations × 100 clicks = 500 | **600** |
+| numbers | Breville Smart Grinder Pro — 60 numbered settings | **100** |
+| turns | J-Ultra and X-Ultra — about 5 rotations | **15** |
+
+For reference, the next widest click grinders are the 1Zpresso J-Max at roughly
+400 total settings and the X-Ultra at 270. On numbered dials, nothing else comes
+close to the Breville's 60 — the Niche Zero is 50, Wilfa 41, Baratza Encore 40.
+
+The lowest setting cannot be negative, and the highest must be above the lowest.
+
+Sources: 1zpresso.coffee J-Ultra and K-Ultra manuals (100 clicks per rotation,
+five rotations); 1zpresso.coffee grind-setting chart (4.3 rotations = 430
+clicks); thecoffeefolk.com 1Zpresso comparison (J-Max ~400 settings).
+
+## How much coffee each brewer holds
+
+The dose used to be capped at a flat 100g regardless of brewer, which is
+meaningless — an AeroPress physically cannot hold 100g of coffee. The cap now
+comes from the brewer, using the largest size of each that people actually own.
+
+| Brewer | Real capacity | Cap |
+|---|---|---|
+| Hario V60 | 01 tops out near 300ml, 02 near 600ml (42g brews are common), 03 brews 1–6 cups | **60g** |
+| Kalita Wave | 155 is 18–24g, 185 is 26–45g | **45g** |
+| Chemex | a 10-cup holds around 1.5 litres | **90g** |
+| AeroPress | 42g is the practical limit of the standard chamber — there isn't room to extract more in one pass | **42g** |
+| Hario Switch | a V60-sized immersion dripper, 200/300ml | **30g** |
+
+Switching to a smaller brewer pulls the dose down automatically, so moving from a
+Chemex at 90g to an AeroPress lands at 42g rather than leaving an impossible recipe.
+
+### Machines override the brewer
+
+If you're brewing on a machine, the machine decides how much fits — not the
+dripper chosen on the Build page.
+
+| Machine | Real limit | Cap |
+|---|---|---|
+| xBloom Studio | A stated maximum dose of 25g. Reviewers list it as a drawback: batch brewing is tricky because of it | **25g** |
+| Fellow Aiden | A 1.5-litre tank across 1–10 cups. At the weakest ratio the app uses (1:17), 1500 ÷ 17 gives the most that always fits | **88g** |
+
+The Aiden is the only thing in the app that takes more coffee than a Chemex. The
+xBloom is the strictest — its 25g ceiling is well below every manual brewer, so
+without this the app would have suggested a dose that physically cannot be loaded.
+
+Sources: Tom's Guide xBloom Studio specs (maximum dose 25g); Tom's Guide and
+TechRadar Fellow Aiden reviews (1.5L capacity, 1–10 cups).
+
+Sources: Hario V60 size guides; Wrecking Ball and Kaldi's Kalita Wave dose
+guidance (155: 18–24g, 185: 26–45g); AeroPress brewing guides on chamber limits.
+
 ## Result
 
 **22 grinders now land exactly on their documented V60 medium-roast setting**,

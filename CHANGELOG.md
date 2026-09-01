@@ -7,6 +7,16 @@ The format is simple on purpose: each version lists what was **Added**, **Change
 
 ---
 
+## v2.2.0 — 2026-08-27
+
+### Changed
+- **Every grinder in the list is now one whose settings were actually checked.** Eight entries were removed because no manufacturer publishes a pour-over setting for them and their numbers could never be confirmed: Bodum Bistro, Capresso Infinity, Cuisinart Burr Mill, MHW-3Bomber, MIBRU manual and electric, Porlex, and the Hario Skerton. The Skerton went for a second reason — its adjustment gives no repeatable reading, so it could only ever offer a vague description instead of a number.
+
+  Nothing is lost by this. Setup now handles any grinder — clicks, numbers, or turns from burr contact, with any click spacing — so adding yours takes about twenty seconds and gives you a setting tuned to your own dial, which beats a guess. 35 grinders remain.
+- **A saved bag that used a removed grinder now tells you**, and points you at setup, instead of quietly switching to another grinder's numbers.
+
+---
+
 ## v2.1.2 — 2026-08-27
 
 ### Changed

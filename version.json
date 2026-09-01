@@ -1,4 +1,4 @@
 {
-  "version": "2.1.2",
-  "notes": "Release checks for launch: removed a dead duplicate function and updated the documentation."
+  "version": "2.2.0",
+  "notes": "Every grinder in the list is now one whose settings were actually checked. Anything else you add yourself in about twenty seconds."
 }

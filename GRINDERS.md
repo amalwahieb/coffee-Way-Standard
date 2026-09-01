@@ -274,13 +274,25 @@ calibration drift:
 - The **1Zpresso J-Max** base was 90 when the documented setting is 210 clicks.
 - **Baratza Encore and Virtuoso** were 5–7 numbers coarse against Baratza's own table.
 
-## Still carried, not verified
+## Removed
 
-Low-precision budget grinders where a number means less and the dial is coarse:
-Bodum Bistro, Capresso Infinity, Cuisinart Burr Mill, MHW-3Bomber, MIBRU (manual
-and electric), Porlex Mini / Tall, Hario Skerton (already "by feel", which is
-right), xBloom Studio. Their current values are plausible but unconfirmed — no
-manufacturer publishes a pour-over number for most of them.
+Eight entries were removed rather than shipped with numbers that could not be
+checked: Bodum Bistro, Capresso Infinity, Cuisinart Burr Mill, MHW-3Bomber R3/M1,
+MIBRU (manual and electric), Porlex Mini/Tall, and the Hario Skerton.
+
+No manufacturer publishes a pour-over setting for any of them, so more research
+would not have helped. The Skerton went too: its adjustment nut gives no
+repeatable reading, so it could only ever offer a description rather than a
+number, which is worth less than nothing to someone new to coffee.
+
+Removing them is safe because setup now covers every kind of grinder — clicks,
+numbers, or turns from burr contact, with any click density from none to nine.
+Anyone with one of these adds it in about twenty seconds and gets a setting tuned
+to their own dial, which is better than an unverified guess. A saved bag that
+still refers to a removed grinder now says so and points at setup, instead of
+quietly switching to a different grinder's numbers.
+
+**35 grinders remain, every one of them checked or structurally verified.**
 
 ## Worth adding
 

@@ -7,6 +7,14 @@ The format is simple on purpose: each version lists what was **Added**, **Change
 
 ---
 
+## v2.1.2 — 2026-08-27
+
+### Changed
+- Removed a duplicated internal function that was overridden and never ran. No change in behaviour — it was a trap for future edits, not a bug.
+- Documentation updated for launch.
+
+---
+
 ## v2.1.1 — 2026-08-27
 
 ### Fixed

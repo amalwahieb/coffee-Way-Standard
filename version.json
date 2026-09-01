@@ -1,4 +1,4 @@
 {
-  "version": "2.1.1",
-  "notes": "Machine recipes now run 2C cooler than the kettle number, because a machine loses none of the heat a kettle does on the way to the coffee."
+  "version": "2.1.2",
+  "notes": "Release checks for launch: removed a dead duplicate function and updated the documentation."
 }

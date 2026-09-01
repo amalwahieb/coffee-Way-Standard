@@ -242,6 +242,26 @@ TechRadar Fellow Aiden reviews (1.5L capacity, 1–10 cups).
 Sources: Hario V60 size guides; Wrecking Ball and Kaldi's Kalita Wave dose
 guidance (155: 18–24g, 185: 26–45g); AeroPress brewing guides on chamber limits.
 
+## xBloom Studio — verified, CORRECTED
+
+The xBloom's grinder was listed with a range of 5–75 while its own note said "80
+levels" — both could not be true. The real scale is **1 to 80**, 18.75µm per
+step, from about 180µm at setting 1 (espresso) to 1050µm at setting 80 (cold
+brew). Filter work sits at **30–45**, which is where the app now starts.
+
+It also gets special treatment on the Machine page: because the xBloom grinds for
+you, selecting it switches to its built-in grinder and shows the setting on its
+own 1–80 scale. Whatever grinder you picked on the Build page is set aside while
+the machine is selected, and restored when you leave it.
+
+**The Fellow Aiden is deliberately the opposite.** It has no grinder — it is a
+brewer only — so Aiden owners grind on whatever they own, and the Build page
+grinder is exactly right. Nothing should force a grinder there.
+
+Sources: xbloom.com Studio product page (80 settings); thebasicbarista.com xBloom
+Studio grind guide (1–80 scale, 180–1050µm, filter 30–45); Whole Latte Love and
+Coffeegeek reviews (18.75µm per step).
+
 ## Result
 
 **22 grinders now land exactly on their documented V60 medium-roast setting**,

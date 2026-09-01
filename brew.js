@@ -200,7 +200,7 @@ h1{font-family:ui-serif,'New York',Georgia,'Noto Serif',serif;font-size:34px;fon
 <div id="gsetupOverlay" class="gso" style="display:none"></div>
 <div id="timerOverlay" class="tov"><div class="tov-inner"><div class="tov-eyebrow" id="tEyebrow">Pour timer</div><div class="tov-ring-wrap"><svg class="tov-ring" viewBox="0 0 240 240"><circle class="tov-ring-bg" cx="120" cy="120" r="108"/><circle class="tov-ring-fg" id="tRing" cx="120" cy="120" r="108"/></svg><div class="tov-ring-center"><div class="tov-state" id="tState">POUR</div><div class="tov-time" id="tTime">0:00</div><div class="tov-target" id="tTarget"></div></div></div><div class="tov-note" id="tNote"></div><div class="tov-next" id="tNext"></div><div class="tov-steps" id="tSteps"></div><div class="tov-ctrls"><button id="tPause" class="tov-btn">Pause</button><button id="tSkip" class="tov-btn">Skip</button><button id="tReset" class="tov-btn">Reset</button><button id="tClose" class="tov-btn tov-close">Close</button></div></div></div>
 <script>
-var APP_VERSION="2.1.1";
+var APP_VERSION="2.1.2";
 // To enable update checks: set this to the raw URL of version.json in your repo,
 // e.g. "https://raw.githubusercontent.com/USER/REPO/main/version.json". Leave "" to disable.
 var VERSION_URL="https://raw.githubusercontent.com/amalwahieb/coffee-Way-Standard/main/version.json";
@@ -246,7 +246,6 @@ var MACHINE_MAXDOSE={xbloom:25,aiden:88};
 function doseLimit(){var mm=state.machineOn?MACHINE_MAXDOSE[state.machine]:0;if(mm)return mm;var b=BREWERS.find(function(x){return x.id===state.brewer;});return (b&&b.maxDose)?b.maxDose:LIM.dose.max;}
 function limOf(k){var l=LIM[k];if(k!=="dose")return l;return{min:l.min,max:doseLimit(),step:l.step,dec:l.dec};}
 function gsLimit(unit){return unit==="turns"?15:(unit==="numbers"?100:600);}
-function gsRangeStep(){var mn=parseFloat(gsetup.min),mx=parseFloat(gsetup.max);var span=Math.max(1,mx-mn);return Math.max(1,Math.round(span*0.15));}
 function gsClamp(v){var mn=parseFloat(gsetup.min),mx=parseFloat(gsetup.max);if(isNaN(mn))mn=0;if(isNaN(mx))mx=40;if(isNaN(v))v=(mn+mx)/2;return Math.max(mn,Math.min(mx,v));}
 function gsRangeStep(){var mn=parseFloat(gsetup.min),mx=parseFloat(gsetup.max);if(isNaN(mn))mn=0;if(isNaN(mx))mx=40;var span=Math.max(1,mx-mn);return Math.max(1,Math.round(span*0.15));}
 function gsQuickStep(){var mn=parseFloat(gsetup.min),mx=parseFloat(gsetup.max);if(isNaN(mn))mn=0;if(isNaN(mx))mx=40;var span=Math.max(1,mx-mn);return Math.max(1,Math.round(span*0.10));}

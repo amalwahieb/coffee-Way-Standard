@@ -7,11 +7,50 @@ The format is simple on purpose: each version lists what was **Added**, **Change
 
 ---
 
+## v2.1.1 — 2026-08-27
+
+### Fixed
+- **Machine recipes were running too hot.** The temperature in a recipe is a kettle temperature, and a kettle never delivers it to the coffee — a gooseneck loses around 3°C in the first thirty seconds of a pour, and the brewer, filter and open air take more. This is why the industry standard for automatic brewers measures the temperature of the coffee slurry rather than the kettle. A machine like the xBloom pours straight onto the bed and loses almost none of that heat, so the same number brews noticeably hotter and the cup comes out harsh. The Machine page now shows temperatures 2°C below the recipe, and says why, so the two aren't mistaken for a mismatch.
+
+---
+
+## v2.1.0 — 2026-08-27
+
+### Changed
+- **The ratio now follows the size of the brew.** A single cup used the same ratio as a full Chemex, which made small brews both bigger and weaker than they should be — a 15g cup came out at 250ml. A deeper coffee bed extracts more efficiently, so the right ratio shifts with batch size: roughly 1:15 for a single cup, 1:16 for a double, and 1:16.7 for a batch. A 15g cup is now 230ml instead of 250ml, and tastes fuller for it. Larger brews are unchanged. Lighter, Balanced and Stronger still work exactly as before on top of this.
+
+### Fixed
+- **Thirty grinder notes had lost their Arabic.** Every grinder description rewritten during the recent accuracy work was left in English, so Arabic users saw an English sentence under their grinder. All 43 grinders now read correctly in both languages.
+
+### Investigated, no change
+- **Water temperature by origin.** Ethiopian coffee was checked against roaster guidance, and the finding went the other way from expectation: roast level drives temperature far more than origin, and dense high-altitude coffees like Ethiopian and Kenyan light roasts want *hotter* water, not cooler, because they resist extraction. The existing cooler settings for Brazil, Indonesia and Vietnam match the guidance for softer, low-acid and naturally processed beans. No temperature changes were made.
+
+---
+
+## v2.0.2 — 2026-08-27
+
+### Fixed
+- **The machine card rounded the ratio, so machines brewed the wrong amount of water.** It displayed the ratio as a whole number while showing the real water volume beside it — so a 15g recipe using 250ml was labelled "1:17", even though 250ml at 15g is 1:16.7. Entering 1:17 into a machine like the xBloom makes it work out 255ml instead of 250. The card now shows the ratio the water actually represents, and says to match the water volume if your machine calculates a different total from the ratio. The volume is the number the recipe is built on.
+
+---
+
+## v2.0.1 — 2026-08-27
+
+### Fixed
+- **The grind texture showed as "undefined undefined".** After tapping the dial-in button on a click grinder like the Opus, the line under the grind number — normally something like "Medium-fine, like fine sand" — broke. Moving by a single click puts the grind between two whole steps, and the texture description had no entry for an in-between position. It now rounds to the nearest texture.
+- **The dial-in trail disagreed with the recipe card.** Each trail entry recorded the setting you had just brewed at, while the card showed the new one, so the two lists never matched and it wasn't clear which number to use. Every trail entry is now the setting the change moves you *to* — the one to brew with next, matching the card exactly.
+- **The machine card had no reachable close button.** The card is tall, and the overlay centred it without scrolling, so the Close button underneath was pushed off the bottom of the screen with no way to get to it. There's now a close button pinned to the top corner, the card scrolls, and tapping the background dismisses it too. Both share cards get this.
+
+---
+
 ## v2.0.0 — 2026-08-27
 
 ### Changed
 - **The most coffee you can use is now set by your brewer.** It used to be a flat 100g for everything, which is meaningless — an AeroPress physically cannot hold 100g of coffee. Each brewer now carries its real capacity: 60g for a V60, 45g for a Kalita Wave, 90g for a Chemex, 42g for an AeroPress (the practical limit of its chamber) and 30g for a Switch. Moving to a smaller brewer brings the dose down with it, so switching from a Chemex at 90g to an AeroPress lands at 42g instead of leaving a recipe that could never be brewed.
 - **Brewing machines set their own limit.** If you're using the Machine page, the machine decides how much coffee fits rather than the dripper picked on the Build page. The xBloom Studio has a stated maximum of 25g — well below every manual brewer, so the app could previously have suggested a dose that physically cannot be loaded. The Fellow Aiden goes the other way at 88g, the most its 1.5-litre tank can take, making it the only thing in the app that holds more coffee than a Chemex.
+
+- **The xBloom now uses its own grinder.** The xBloom has a grinder built in, but the app was still showing the grind for whichever grinder you picked on the Build page — so an xBloom user could be told "23 clicks", a number that means nothing on that machine. Selecting the xBloom now shows the setting on its own 1–80 scale, and puts your own grinder back when you leave. The Fellow Aiden has no grinder of its own, so it correctly keeps using yours.
+- **The xBloom grinder's range was wrong.** It was listed as 5–75 while its own description said 80 levels. The real scale is 1 to 80, and filter brewing sits around 30–45, which is where the app now starts.
 
 ### Fixed
 - **Typing a dose could bypass the limit.** The +/− buttons respected it, but a typed value went straight into the recipe and was only corrected when the field lost focus — which on a phone often never happens. Typing 500 produced a 2.5-litre recipe. The upper limit now applies as you type, while the lower one is still applied when you finish, so entering "45" doesn't jump to 8 halfway through. The same fix covers the days-since-roast field.

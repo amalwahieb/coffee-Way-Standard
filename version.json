@@ -1,4 +1,4 @@
 {
-  "version": "2.3.2",
-  "notes": "Sharing a recipe now works on iPhone, and the grinder setup explains why it will not continue instead of appearing to ignore you."
+  "version": "2.4.0",
+  "notes": "What you are working on now stays put when you close the app - imported recipes included."
 }

@@ -7,6 +7,17 @@ The format is simple on purpose: each version lists what was **Added**, **Change
 
 ---
 
+## v2.4.0 — 2026-08-27
+
+### Fixed
+- **An imported recipe disappeared as soon as you left the app.** Importing worked — the recipe loaded correctly — but what you were working on was never stored, so closing the app threw it away and you came back to the default recipe. On iPhone that happens every time you switch away, which made importing look broken. The recipe you're working on is now kept, imported or not, and is still there when you come back.
+- **The message after importing was misleading.** It read as though the work was done. It now says plainly: "Imported. Not saved yet — tap Save this bag to keep it."
+
+### Changed
+- If the recipe restored on start-up refers to a grinder that is no longer in the app, it says so and falls back openly rather than quietly using another grinder's numbers.
+
+---
+
 ## v2.3.2 — 2026-08-27
 
 ### Fixed

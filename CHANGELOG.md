@@ -7,6 +7,56 @@ The format is simple on purpose: each version lists what was **Added**, **Change
 
 ---
 
+## v2.3.2 — 2026-08-27
+
+### Fixed
+- **Sharing a recipe did nothing on iPhone.** The app asked the system to share, but the system sharing feature isn't available inside the app on iPhone — and the way the failure came back meant the app never noticed and never fell back. Tapping the button simply did nothing, with no message. Sharing now copies the recipe to your clipboard and confirms it when the share sheet isn't available.
+- **Grinder setup looked frozen when something was wrong.** If a required field was missing or a range was out of bounds, the reason appeared in a pop-up that doesn't show inside the app on iPhone — so the Next button seemed to be ignoring you. The reason now appears on the panel itself.
+- **The setup form suggested impossible values for turns.** The example figures were written for click grinders (0 to 40), which is meaningless in turns and beyond the allowed range — so following the suggestion got you rejected. The example now matches the unit you picked, and the message for turns explains that most grinders take about 3 to 5 turns from closed.
+
+---
+
+## v2.3.1 — 2026-08-27
+
+### Changed
+- Arabic wording: burrs are now called الشفرات rather than الأسنان, throughout the app.
+
+---
+
+## v2.3.0 — 2026-08-27
+
+### Added
+- **Learn now opens with what this app actually is.** A short introduction says plainly that every number here — grind, temperature, ratio, timing — is a considered starting point rather than a correct answer, and explains why: too much of what decides your cup lives outside the app. Bags differ, burrs vary and wear, water changes from one tap to the next, and your kettle and technique move the result. It ends on the rule that matters: if the cup tastes right and the app disagrees, the cup is right.
+
+  It also draws the line the app tries to hold — where it states a fact about your equipment it was checked against the maker's documentation, and where it recommends, it is offering a well-founded opinion.
+
+---
+
+## v2.2.3 — 2026-08-27
+
+### Fixed
+- **The Aiden card asked for one pulse too many.** It counted the drain marker as if it were a pour, so a recipe with a bloom and three pours told you to set four pulses. Every brew style was affected. The pulse count, the timing between pulses and the per-pulse temperatures now match the recipe exactly.
+
+---
+
+## v2.2.2 — 2026-08-27
+
+### Fixed
+- **Each machine card now matches what that machine will accept.** The previous release rounded every temperature to a whole degree, which suits the xBloom but not the Fellow Aiden — the Aiden is built around Fahrenheit, so shown in Celsius its steps land on half degrees. Temperatures now follow the machine.
+- **The Aiden's ratio was losing precision.** It was shown as a whole number, but the Aiden accepts half steps, so a recipe at 1:16.5 was being handed over as 1:16. The card now shows half steps and states the water volume alongside, rounded to the 10ml increments the Aiden uses.
+
+---
+
+## v2.2.1 — 2026-08-27
+
+### Fixed — machine card
+- **The ratio could not be entered.** It showed figures like 1:15.3, but machines accept ratios in half steps. It now shows the nearest half step, and the water volume beside it remains the number to match.
+- **Temperatures could not be entered either.** The Hot-to-cooler and Cool-to-hotter profiles produced values like 92.5°C, while machines move in whole degrees. Machine temperatures are now whole numbers.
+- **A drain step was listed that machines don't have.** Draining is something you watch on a manual brewer; a machine has no such stage, and listing it made the recipe's total volume look like one more pour to program.
+- **An iced recipe never said how much ice to use** — and worse, it showed the combined water-and-ice figure as the amount to brew, so the machine would have been set to pour far more water than the pours called for. It now shows the hot water the machine actually pours, and states the ice to put in the carafe before starting.
+
+---
+
 ## v2.2.0 — 2026-08-27
 
 ### Changed

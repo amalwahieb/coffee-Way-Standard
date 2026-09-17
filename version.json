@@ -1,4 +1,4 @@
 {
-  "version": "2.4.0",
-  "notes": "What you are working on now stays put when you close the app - imported recipes included."
+  "version": "2.7.1",
+  "notes": "Optional visitor counting for the website, off unless you add a token, and never active on iPhone."
 }

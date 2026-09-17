@@ -7,6 +7,66 @@ The format is simple on purpose: each version lists what was **Added**, **Change
 
 ---
 
+## v2.7.1 — 2026-08-27
+
+### Added
+- **Optional visitor counting for the website.** Off by default and does nothing until a token is added. It only ever runs on the website — never in the iPhone app, where there is no browsing to count and the app is meant to work offline. No cookies, so no consent banner is needed.
+
+---
+
+## v2.7.0 — 2026-08-27
+
+### Added
+- **The NextLevel Pulsar.** A no-bypass brewer designed with Jonathan Gagné, where every drop of water passes through the coffee and a variable valve lets you hold the bloom fully submerged before metering the flow out. It behaves differently enough from a cone that it needed its own settings, all taken from its published guidance: a coarser grind (23 clicks on a Timemore C2, matching the 22–23 its recipes call for), a 1:16 ratio, a bloom of three times the coffee weight held with the valve closed, and a longer 3:30–4:00 finish. Its note explains the valve technique and that the shower cap means any kettle will do — no gooseneck needed.
+
+### Fixed
+- **Brewers that use more or less water than standard were showing the wrong ratio.** The AeroPress uses less water than a cone, but the app still displayed the standard figure — it said 1:15.5 while actually brewing 1:13.2. Every brewer now shows the ratio its water really represents.
+
+---
+
+## v2.6.0 — 2026-08-27
+
+### Fixed
+- **A saved bag threw away your dial-in.** Saving a coffee stored the settings it had at that moment and never updated them. So you could save a bag, dial it in over several brews until it tasted right, come back to it the next morning — and get the original grind back. The whole point of the dial-in loop is to converge on the setting that works for that coffee, and reopening the bag discarded it.
+
+  A bag now carries the change every time you apply one, from either the taste advice or the finish-time button. Saved at 5 and 3 clicks, dialled in to 6 and 3 clicks, and that is what you get when you open it again.
+
+---
+
+## v2.5.1 — 2026-08-27
+
+### Fixed
+- **Arabic used the singular for every click count.** A grind of three clicks read "3 نقرة" where Arabic takes "3 نقرات". It now agrees with the number properly: نقرة for one, نقرتين for two, نقرات for three and above.
+
+---
+
+## v2.5.0 — 2026-08-27
+
+### Fixed
+- **The Kasuya 4:6 styles were being brewed like an ordinary V60, which undoes the method.** Kasuya's recipe depends on a notably coarse grind — his own reference is kosher salt rather than table salt — because each pour has to drain completely before the next one. At a normal V60 grind the bed holds water between pours and the structure the method is built on collapses. The app was giving 4:6 the same grind as every other style. Fruity and Sweeter now grind coarser, landing on Kasuya's published reference points: 29 clicks on a Comandante, where he calls for 28–30, and 23 on a Timemore C3 against his 22–24.
+- **The 4:6 styles were also brewed hotter than Kasuya brews them.** He uses 93°C for light roasts, 88°C for medium and 83°C for dark, and his 2016 winning cup was 92°C. The app was using its general temperatures, which run several degrees hotter. The 4:6 styles now match his figures.
+
+### Checked and found correct
+An audit against Kasuya's published guidance confirmed the rest of the method: the 40/60 split is exact, the two opening pours are unequal in the right direction (a larger first pour for brightness, a smaller one for sweetness), the 45-second rhythm holds, and more pours in the second phase makes a stronger cup — which is what Philocoffea, Kasuya's own company, states.
+
+---
+
+## v2.4.2 — 2026-08-27
+
+### Fixed
+- **The timer told you to wait while the cup was draining, then said it was draining once you were finished.** After the last pour there is nothing left to pour — the rest of the brew is drawdown — but the timer showed WAIT, the same word it uses between pours. On the Classic method that is nearly two minutes of being told to wait for a pour that never comes. It now says DRAINING from the last pour until the brew is done, and DONE once it passes the finish window.
+
+---
+
+## v2.4.1 — 2026-08-27
+
+### Fixed
+- **The timer said WAIT while you were still pouring.** POUR was shown for a flat ten seconds on every step, however much water it called for — so a 90ml pour, which takes about seventeen seconds, told you to stop after ten. Only the bloom was ever short enough for this to be right. POUR now lasts as long as the pour actually takes, worked out from its volume at the same pour rate the rest of the app uses, and is always kept a few seconds short of the next step so the two can't overlap.
+
+  For a 20g Everyday Balanced that means: bloom 8 seconds pouring then 37 waiting; each main pour 17 seconds pouring then 23 waiting. Hoffmann pours faster by design, so its 147ml pour gets 20 seconds and only 10 of rest before the next one.
+
+---
+
 ## v2.4.0 — 2026-08-27
 
 ### Fixed

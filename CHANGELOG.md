@@ -1,9 +1,201 @@
+## 2.11.4
+
+Arabic wording, and two real leaks.
+
+- Applied five wording corrections to the brewing notes, replacing "dowwir
+  al-wi3a" (swirl the vessel) with "harrik al-qam3 bi-shakl da2iri" (move the
+  cone in a circle) and tightening the bloom, pulse and top-up lines.
+- Fixed: the second half of a split pour showed its note in English. The
+  splitter prepended an Arabic "wait for the level to drop" prefix to the
+  English note, and the result was no longer a translation key, so it fell
+  through untranslated. Introduced in 2.11.0.
+- Fixed: the AeroPress plunger note ("Top to NNNg, seat the plunger") was
+  built by splicing the volume into the sentence, so it could never be a
+  translation key and always showed in English. Pre-existing.
+- Numbered pour labels beyond "Pour 3" had no Arabic, which the renumbering in
+  2.11.0 made reachable. Pour 1-9 now render as "sabba N", matching the word
+  the app already used for a single pour.
+
+Tests
+- New file 09-arabic.js (6,480 checks): every style x brewer x strength x dose
+  x hot/iced, with each label and note rendered through tr() and checked for
+  latin words. This catches build-time assembled strings that stop being
+  translation keys - the exact failure above.
+
+## 2.11.3
+
+- The analytics beacon was created without type="module", which Cloudflare
+  requires for a manually embedded snippet. It would have silently failed to
+  report even after a valid token was added. Still inert until a token is set.
+
+## 2.11.2
+
+Two saved-bag bugs reported from the phone.
+
+- A bag you saved but had not brewed showed a brew-log row dated today, reading
+  "logged". Saving a bag seeded its history with an entry even when no taste had
+  been reported, and the renderer falls back to the word "logged" for an entry
+  with no verdict. A bag's history now starts empty and only gains a row when you
+  actually report how the cup tasted. The same gap existed on re-saving an
+  existing bag, so that path is fixed too.
+- Deleting the bag you were working on left all of its settings loaded in the
+  builder, and the dial-in trail with them, so the next bag you created
+  inherited the deleted one's origin, roast, brewer and grind offset. Deleting
+  the active bag now resets the builder to defaults. Deleting any other bag
+  leaves your current work untouched.
+
+Tests
+- New file 08-bags.js (30 checks) covering both bugs and the inheritance case.
+- Verified in a real browser through the actual delete button, including across
+  an app restart.
+
+## 2.11.1
+
+No pour asks for more than 35 seconds of continuous pouring.
+
+- A pour is now also split when holding a steady stream for it would take longer
+  than ~35s, not only when the volume or the time window demands it. Grounded in
+  the longest single pour in any published recipe modelled here: Hoffmann's 240ml
+  between 0:45 and 1:15, which is 30s.
+- This fixes a backwards result where a smaller dose was harder to execute than a
+  larger one. Osamah at 35g needed one 38-second pour, while 40g was already
+  split into two 22-second pours. 35g is now four pours of 19s, 19s, 12s and 16s.
+- Pour count can no longer drop as the dose rises.
+
+Tests
+- New guard: no pour may need more than 36s of continuous pouring.
+- New guard: pour count is monotonic in dose, per style and brewer.
+- 05-pours now runs 13,980 checks (was 7,500 before this pair of releases).
+
+## 2.11.0
+
+Split pours no longer read as extra pours.
+
+- A pour that must be served in two additions now renumbers into the main
+  sequence: Bloom / Pour 1 / Pour 2 / Pour 3 / Pour 4, instead of
+  "Pour 1a" / "Pour 1b". Reported by a user who saw "more pours" past 30g.
+- Pours now split only when physically necessary: when the volume exceeds the
+  brewer's standing headroom (280ml, from verified capacities) or cannot be
+  poured inside the window before the next instruction. Previously any pour
+  over 200ml split, which contradicted Hoffmann's own published recipe
+  (30g/500g pours 240ml in one addition) from 27g upward.
+- Where a split still happens, the pause between halves is a real one
+  (pour time + 10s, was + 4s, which never let the level drop) and the second
+  half says to wait for the level to drop rather than repeating the first
+  half's note word for word.
+- Pour rates now come from each method's own recipe: Hoffmann 8 ml/s
+  (240ml between 0:45 and 1:15), Osamah 7 ml/s.
+
+Arabic
+- Timeline step labels were showing in English in Arabic mode. Bloom, Pour 1-9,
+  Steep, Press and Release are now translated.
+
+Tests
+- 05-pours: fixed a window-attribution bug that measured each pour's volume
+  against the gap *before* it started rather than the time it actually had.
+- 05-pours: new regression guard that pour labels stay sequential and no
+  "1a"/"1b" label can ever come back (10,740 checks, up from 7,500).
+- Added a parse check on brew.js after regeneration.
+
 # Changelog
 
 All notable changes to Coffee Way Standard are recorded here.
 Newest version on top. Dates are the day the build was finalized.
 
 The format is simple on purpose: each version lists what was **Added**, **Changed**, **Fixed**, or **Removed**, in plain language.
+
+---
+
+## v2.10.0 — 2026-08-27
+
+### Added
+- **Ten origins had no guidance at all.** Guatemala, Costa Rica, Rwanda/Burundi, Yemen, Honduras, El Salvador, Tanzania/Uganda, Thailand, Mexico and India showed nothing where other origins explained what to expect and how to brew them. All ten now carry a note, in both languages, written as brewing advice rather than a flavour list — what the cup tends to do and what to do about it.
+
+---
+
+## v2.9.5 — 2026-08-27
+
+### Fixed
+- **Removed a warning that was wrong.** The app said a dose below 20g gives a shallow bed on a standard Pulsar. NextLevel publish four 15g recipes for the standard brewer — including the one Simon used at the 2026 World Brewers Cup — so the warning contradicted the maker. It came from one reviewer's preference, not from the brewer's limits.
+
+### Changed
+- **Iced on the Pulsar now uses less ice.** A cone needs about 40% of its water as ice; NextLevel's own flash brew is 240g brewed onto 100g of ice, nearer 30%, because a no-bypass brewer makes a stronger concentrate. The app now matches that on the Pulsar and leaves every other brewer alone.
+- **The valve is now offered as the first thing to adjust.** If the brew runs through too fast, opening the valve only partway — around 1 o'clock — fixes it without touching the grinder. Several of the maker's recipes work this way, and it is a control no cone has.
+- **Fermented and decaf coffees on the Pulsar** now carry a note that NextLevel brew them tighter, around 1:13, and top the cup up with hot water afterwards.
+
+### Checked against the maker's twelve published recipes — no change needed
+The bloom of three times the coffee weight matches Scott Rao, Jonathan Gagné and Richard. The 1:17 ratio matches seven of the twelve. A 25g brew comes out at 426ml against Rao's 425g. A natural coffee lands at 91°C, exactly Parsa Lack's figure. The grind sits at 25 clicks on a Comandante where Parsa uses 24. Closing the valve to bloom and pouring in bursts with 1–2cm of water above the bed is how Rao and Gagné both describe it.
+
+---
+
+## v2.9.4 — 2026-08-27
+
+### Changed
+- **The Pulsar now starts at NextLevel's own recommended 1:17 ratio.** The maker's guidance is that a no-bypass brewer extracts more efficiently than a cone, so it takes more water: "We recommend starting with a ratio of 1:17." The app was at about 1:16.5. A 25g brew is now 426ml — matching NextLevel's standard 25g recipe.
+- Arabic wording: "بلا صب زيادة" is now "بدون صب زيادة".
+
+---
+
+## v2.9.3 — 2026-08-27
+
+### Fixed — Pulsar instructions
+- **The drain step said the same thing twice** ("let it finish… let it draw down on its own"), and the valve instruction had only been added in English — the Arabic never mentioned the valve. It is now one clear sentence in both languages.
+- **The later pours contradicted the schedule.** "Top up whenever the water drops close to the bed" suggested pouring on demand, while the step has a fixed time and volume. It now says to pour that step in short bursts, keeping the water 1–2cm above the bed.
+- **A small dose on the standard Pulsar now gets a warning.** Below 20g the bed is too shallow on the standard model and can taste thin; the Pulsar Mini is made for 15g brews. The note appears only below 20g.
+
+---
+
+## v2.9.2 — 2026-08-27
+
+### Fixed
+- **Iced coffee was brewed a degree hotter than it should be.** The ice sits in the carafe below the dripper, so the water extracts the coffee at full temperature and only chills after it drips through. Every primary source brews iced at its normal hot temperature — Hoffmann at 95°C, Kasuya within his usual range, and Blue Bottle, Counter Culture and Tim Wendelboe alike — and none raises it to allow for the ice. Iced now uses the same temperature as the hot version of the same coffee. The grind (one step finer) and ratio (40% ice, about 1:15 counting the ice) already matched the published guidance and are unchanged.
+- **Some processed coffees were being cooled twice.** An older rule already took a degree off anaerobic, co-fermented and decaf lots, and the processing temperatures added in 2.9.0 were applied on top of it — so an anaerobic coffee ran 4°C cooler instead of 3. The adjustment now applies once.
+
+---
+
+## v2.9.1 — 2026-08-27
+
+### Changed
+- **Indian coffee now brews cooler**, alongside Brazil, Indonesia and Vietnam. Much of it is monsooned — deliberately exposed to humid winds, which swells the bean and leaves it soft and porous. Density drives how fast a coffee gives up its flavour: dense high-grown beans need heat to open up, while soft ones let water through too quickly and turn bitter if brewed hot. India was being treated as a dense origin.
+
+---
+
+## v2.9.0 — 2026-08-27
+
+### Changed
+- **How a coffee was processed now affects the water temperature.** Two bags from the same farm can want different water depending on whether they were washed or dried with the fruit on, and the app was treating them identically — a washed Ethiopian and a natural Ethiopian both got 93°C. Naturals and fermented lots are more soluble and turn boozy or harsh when brewed hot, so they now run cooler: honey 1°C below washed, natural 2°C, anaerobic and co-fermented 3°C. Decaf runs cooler too, since decaffeinated beans are more porous and give up their flavour faster.
+
+  This was the largest remaining gap in the temperature guidance. Roast level, origin, brewer and brew style all moved the temperature already; processing, which specialty roasters treat as a primary lever, did not.
+
+### Fixed
+- The Everyday Balanced description said "a bloom and two calm, even pours" when the recipe pours three times. Corrected in both languages.
+- The Pulsar's drain step now says to leave the valve open, rather than reading like a cone recipe.
+
+---
+
+## v2.8.1 — 2026-08-27
+
+### Added
+- **Brewers that steep now say so.** On an AeroPress or a Switch the coffee sits in water rather than being poured through, so a brew style cannot shape the steps — you get that brewer's own method. The app now says this on the recipe instead of leaving the choice looking like it did something, and notes that strength and dose still work as usual.
+
+---
+
+## v2.8.0 — 2026-08-27
+
+### Fixed — brew styles on brewers other than the V60
+The brew styles were all written for a V60, and combining them with the other brewers produced results that ranged from odd to wrong.
+
+- **A coarse style on a coarse brewer went off the end of the dial.** Kasuya 4:6 asks for a coarse grind so each pour can drain, and the Pulsar asks for one because of how it meters flow — but the app added both, putting a Comandante at 39 clicks out of 40, well into French press territory. They are asking for the same thing, so the app now takes the larger rather than stacking them. That combination now sits at 33.
+- **Steeping brewers were taking a grind from a pour pattern they never perform.** On an AeroPress or a Switch the coffee sits in water; there are no pours to space out. Choosing Kasuya there changed the grind without changing anything else, so you got a much coarser grind with a recipe that was not Kasuya. A brew style no longer moves the grind on a brewer that steeps.
+- **Steps that add no water were showing "0ml".** Steeping, pressing and opening the valve are real steps, but they pour nothing, and listing them with a volume made the recipe look broken.
+
+---
+
+## v2.7.2 — 2026-08-27
+
+### Fixed
+- **The Pulsar steps read like a cone recipe.** The brewer was added with the right grind, ratio and timing, but the instructions still said things written for a V60 — swirl after the bloom, keep the water level steady — and never once mentioned the valve, which is the whole point of the brewer. The steps now say to close the valve before the bloom so the grounds stay submerged, open it before the first pour, and keep about 1–2cm of water above the bed on each burst.
+- **Agitation advice for the Pulsar was wrong.** It told you to swirl, but the shower cap spreads the water for you and swirling mid-brew works against the design. It now says to keep agitation low and not to swirl once the valve is open. Other brewers are unchanged.
 
 ---
 

@@ -1,4 +1,4 @@
 {
-  "version": "2.7.1",
-  "notes": "Optional visitor counting for the website, off unless you add a token, and never active on iPhone."
+  "version": "2.11.4",
+  "notes": "Arabic wording corrections; two real Arabic leaks fixed."
 }

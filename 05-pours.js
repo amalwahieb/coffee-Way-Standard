@@ -13,7 +13,11 @@ const R = H.Reporter("05 POUR SCHEDULES");
 // Kasuya 4:6 folds the bloom into a deliberately large first pour, so it gets a
 // higher bloom ceiling. Immersion brewers fill-and-steep rather than pour.
 const KASUYA = ["brighter", "sweeter"];
-const MAX_SINGLE_POUR = 260;   // ml - beyond this a single pour isn't controllable
+const MAX_SINGLE_POUR = 280;   // ml - standing-water headroom of the smallest
+// brewer in the set. Verified: V60-02 250-500ml and Hoffmann pours 240ml into one
+// in a single addition at 30g; Kalita Wave 185 500ml; Chemex 8-cup >1L; Pulsar
+// marked to 300ml with a ~400ml brim (coffeegeek.com). Beyond this a single pour
+// would overflow the cone.
 
 function check(dose, goalId, brewerId, strengthId, serve, strict) {
   R.count();
@@ -53,7 +57,10 @@ function check(dose, goalId, brewerId, strengthId, serve, strict) {
 
   const rate = H.pourRateFor(goalId);
   for (let i = 1; i < pours.length; i++) {
-    const window = pours[i].t - pours[i - 1].t;
+    // A pour starts at its own time and must finish before the NEXT instruction,
+    // so its window runs forward, not back to the previous pour.
+    const nextT = (i + 1 < pours.length) ? pours[i + 1].t : (drain ? drain.t : pours[i].t + 999);
+    const window = nextT - pours[i].t;
     const vol = pours[i].pour;
     const needed = vol / rate;
     if (window > 0 && needed > window + 3)
@@ -68,6 +75,75 @@ function check(dose, goalId, brewerId, strengthId, serve, strict) {
       R.flag("drain-too-soon", tag + ": drain " + gap + "s after a " + lp.pour + "ml pour (needs ~" + Math.round(needed) + "s)");
   }
 }
+
+// --- regression: no pour demands an unrealistically long continuous stream ---
+// The longest single pour in any published recipe modelled here is Hoffmann's
+// 240ml between 0:45 and 1:15 (= 30s). Past ~35s a steady hand-pour stops being
+// realistic, so the engine must split it.
+const MAX_POUR_SECONDS = 36;   // 35s limit + 1s of rounding slack
+(function pourDuration() {
+  const gs = H.GOALS.map(x => x.id), bs = H.BREWERS.map(x => x.id), ss = H.STRENGTHS.map(x => x.id);
+  for (let dose = H.DOSE_MIN; dose <= H.DOSE_MAX; dose++)
+    gs.forEach(g => bs.forEach(b => ss.forEach(st => {
+      if (H.brewerKind(b) === "immersion") return;   // fill-and-steep, not a stream
+      R.count();
+      let r;
+      try { r = H.buildRecipe(H.base({ dose, goal: g, brewer: b, strength: st })); } catch (e) { return; }
+      const rate = H.pourRateFor(g);
+      H.splitPours(r).pours.slice(1).forEach((x, i) => {
+        const sec = x.pour / rate;
+        if (sec > MAX_POUR_SECONDS)
+          R.flag("pour-too-long", dose + "g " + g + "/" + b + "/" + st + ": pour " + (i + 2) +
+            " needs " + Math.round(sec) + "s of continuous pouring (" + x.pour + "ml)");
+      });
+    })));
+})();
+
+// --- regression: pour count must never DROP as the dose rises ---
+// A 35g brew used to need one 38s pour while 40g got two 22s pours, so the
+// smaller dose was harder to execute than the larger one.
+(function monotonic() {
+  const gs = H.GOALS.map(x => x.id), bs = H.BREWERS.map(x => x.id);
+  gs.forEach(g => bs.forEach(b => {
+    let prev = 0;
+    for (let dose = H.DOSE_MIN; dose <= H.DOSE_MAX; dose++) {
+      R.count();
+      let r;
+      try { r = H.buildRecipe(H.base({ dose, goal: g, brewer: b })); } catch (e) { continue; }
+      const n = H.splitPours(r).pours.length;
+      if (prev && n < prev)
+        R.flag("pour-count-drop", g + "/" + b + ": " + (dose - 1) + "g had " + prev +
+          " pours but " + dose + "g has " + n);
+      prev = n;
+    }
+  }));
+})();
+
+// --- regression: pour steps are numbered sequentially, never "1a"/"1b" ---
+// A split pour used to be labelled "Pour 1a"/"Pour 1b", which read as an extra
+// pour and confused users. Split pours must renumber into the main sequence.
+(function labelSequence() {
+  const gs = H.GOALS.map(x => x.id), bs = H.BREWERS.map(x => x.id), ss = H.STRENGTHS.map(x => x.id);
+  for (let dose = H.DOSE_MIN; dose <= H.DOSE_MAX; dose++)
+    gs.forEach(g => bs.forEach(b => ss.forEach(st => {
+      R.count();
+      let r;
+      try { r = H.buildRecipe(H.base({ dose, goal: g, brewer: b, strength: st })); } catch (e) { return; }
+      const tag = dose + "g " + g + "/" + b + "/" + st;
+      let n = 0;
+      r.pours.forEach(p => {
+        const L = String(p.label);
+        if (/^Pour\s*\d+[a-z]$/.test(L))
+          R.flag("ab-label", tag + ': label "' + L + '" - split pours must renumber');
+        if (!p.noAmt && L.indexOf("Pour") === 0) {
+          n++;
+          const expect = "Pour " + n;
+          if (L !== expect && L !== "Pour")
+            R.flag("out-of-sequence", tag + ': got "' + L + '" expected "' + expect + '"');
+        }
+      });
+    })));
+})();
 
 const goals = H.GOALS.map(x => x.id);
 const brewers = H.BREWERS.map(x => x.id);

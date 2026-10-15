@@ -1,4 +1,4 @@
 {
-  "version": "2.11.4",
-  "notes": "Arabic wording corrections; two real Arabic leaks fixed."
+  "version": "2.11.7",
+  "notes": "The Machine page no longer changes your Build grinder or dose."
 }

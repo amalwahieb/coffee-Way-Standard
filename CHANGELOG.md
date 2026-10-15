@@ -1,3 +1,73 @@
+## 2.11.7
+
+The Machine page no longer changes your Build recipe.
+
+- Selecting the xBloom swapped your Build grinder to "xBloom (built-in)" and
+  never swapped it back when you returned to Build. It also capped your Build
+  dose at 18g - even for a V60 - because the "machine on" flag was set and never
+  cleared. Since 2.11.5 both survived closing the app.
+- The Machine page now works on a copy of your recipe. The xBloom card uses the
+  xBloom's own grinder and its 18g limit internally, and tells you when your
+  Build dose is above that. Your grinder, dose and dose limit on Build are never
+  touched. Loading a bag no longer trims its dose either.
+- The xBloom card's grind was a fixed "start ~55". It now shows the real setting
+  for your recipe on the xBloom's 1-80 scale (about 36 for a medium roast),
+  matching the documented filter range of 30-45 and following roast, dose and
+  dial-in like every other grinder.
+- Anyone already stuck with the xBloom as their Build grinder gets their own
+  grinder back on the next launch or bag load.
+- GRINDERS.md: corrected the xBloom dose limit (18g, was 25g) and the
+  description of how the Machine page treats your grinder.
+
+Tests
+- 11-machines.js now checks the Machine page leaves the Build recipe alone and
+  that the xBloom grind comes from its own scale; 10-relaunch.js checks the
+  repair. Verified both fail on the previous behaviour.
+
+## 2.11.6
+
+xBloom card shows only what the machine accepts.
+
+- The dose box allowed up to 25g with the xBloom on, while the card printed
+  "max ~16g" for anything over 16g - so a 25g brew showed 25g volumes next to a
+  16g warning. Both numbers were wrong. xBloom's own product page gives the
+  Omni Dripper 2 a recommended dose of 5-18g (also Ozone Coffee's spec sheet,
+  xbloom.au and Nucleus Coffee). The limit is now 18g, and the card's warning
+  reads the same number as the dose box, so they cannot disagree again.
+- A bag saved at more than 18g with the xBloom on (older versions allowed it)
+  is brought down to 18g when loaded, with a message saying so.
+- xBloom app recipes accept up to 95C (Whole Latte Love, Nucleus Coffee; Ozone
+  lists 98C). The card could ask for 98-99C on light roasts. It now caps at
+  95C and says so when the cap applies. The Fellow Aiden is unaffected.
+  Confirmed on a real xBloom app: the highest number is 95, and the only
+  setting above it is BP (boiling point).
+- Arabic: "Agitation before / after" showed OFF / OFF in English.
+
+Tests
+- New file 11-machines.js (905 checks). Verified it fails on the previous card
+  for all four problems.
+
+## 2.11.5
+
+Reopening the app starts a fresh brew.
+
+- Leaving the app and coming back restored the last brew's settings, but not its
+  link to the saved bag, so the screen looked like your bag while being attached
+  to nothing. Reopening now starts a fresh brew; press a saved bag to get it back.
+- Your equipment carries over: grinder, brewer and machine. Resetting the
+  grinder to the default every launch would show the wrong grind numbers to
+  anyone who doesn't own that model.
+- Fixed: a dial-in trail from a previous session was restored invisibly and
+  copied into the next new bag you saved. The trail now lives only with its bag
+  and comes back when you load that bag.
+- Note: an imported recipe is still "not saved yet" (as the import message
+  says) - save it as a bag before leaving the app.
+
+Tests
+- New file 10-relaunch.js boots the app twice in separate sandboxes and checks
+  the second launch matches a first-ever launch apart from equipment. Verified
+  that it fails on the previous behaviour for all three reasons above.
+
 ## 2.11.4
 
 Arabic wording, and two real leaks.

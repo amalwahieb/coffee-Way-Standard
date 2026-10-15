@@ -55,4 +55,60 @@ if (!(both > roastOnly && both > doseOnly))
 // --- ICED: brewed onto ice, so it needs a finer grind than the same hot recipe.
 expect("iced grinds finer than hot", grind({ serve: "iced" }) <= grind({ serve: "hot" }), "");
 
+// --- TEXTURE LABEL: dial-in on a click grinder makes the notch fractional, which
+// once broke the texture lookup and printed "undefined undefined" on the card.
+[0, 0.5, 1, 1.5, -0.5, -2.5, 3.334].forEach(adj => {
+  R.count();
+  const gs = H.buildRecipe(H.base({ grinder: G, grindAdj: adj })).grindSize;
+  if (!gs || !gs.label || !gs.ref)
+    R.flag("texture", "grindAdj " + adj + " gave " + JSON.stringify(gs));
+});
+
+// --- TIMER POUR WINDOW: how long "POUR" shows must follow the pour volume, not a
+// fixed number of seconds, and must never run past the step it belongs to.
+const FAST = ["classic", "osamah"];
+H.GOALS.forEach(g => {
+  [15, 30, 50].forEach(dose => {
+    R.count();
+    const r = H.buildRecipe(H.base({ goal: g.id, dose }));
+    const ps = r.pours.filter(x => !x.noAmt);
+    const rate = FAST.indexOf(g.id) >= 0 ? 7.5 : 5.5;
+    ps.forEach((cur, i) => {
+      const segEnd = ps[i + 1] ? ps[i + 1].t : r.finishHi;
+      const segLen = Math.max(1, segEnd - cur.t);
+      const dur = cur.pour > 0 ? Math.max(5, Math.min(segLen - 3, Math.ceil(cur.pour / rate))) : 0;
+      if (dur > segLen) R.flag("pour-window", g.id + " " + dose + "g: " + cur.label + " window " + dur + "s exceeds its " + segLen + "s step");
+      // The window must not imply a faster pour than anyone can actually manage.
+      if (dur > 0 && cur.pour / dur > 8.5) R.flag("pour-window", g.id + " " + dose + "g: " + cur.pour + "ml in " + dur + "s = " + (cur.pour / dur).toFixed(1) + " ml/s");
+    });
+  });
+});
+
+// --- BREW STYLE x BREWER: the styles were written for a cone, so check that each
+// combination still lands somewhere a filter grinder can actually reach, and that
+// a steeping brewer does not inherit a pour pattern's grind.
+H.GOALS.forEach(g => {
+  H.BREWERS.forEach(b => {
+    H.ROASTS.forEach(ro => {
+      R.count();
+      const r = H.buildRecipe(H.base({ goal: g.id, brewer: b.id, roast: ro.id, grinder: "comandante", dose: 20, days: 7 }));
+      const n = parseFloat(r.grindNumber);
+      if (n > 38 || n < 8) R.flag("grind-out-of-range", g.id + "/" + b.id + "/" + ro.id + " = " + n + " clicks");
+    });
+    // A steeping brewer performs no pour pattern, so the style must not move its grind.
+    if (b.kind === "immersion") {
+      R.count();
+      const a = H.buildRecipe(H.base({ goal: "everyday", brewer: b.id, grinder: "comandante", dose: 20, days: 7 })).grindNumeric;
+      const c = H.buildRecipe(H.base({ goal: g.id, brewer: b.id, grinder: "comandante", dose: 20, days: 7 })).grindNumeric;
+      if (a !== c) R.flag("style-moved-a-steeping-brewer", b.id + " " + g.id + ": " + a + " vs " + c);
+    }
+  });
+});
+// Steps that add no water must not display a volume.
+H.BREWERS.forEach(b => {
+  R.count();
+  const r = H.buildRecipe(H.base({ brewer: b.id, dose: 20 }));
+  r.pours.forEach(p => { if (!p.noAmt && p.pour === 0) R.flag("zero-volume-step", b.id + ": " + p.label + " shows 0ml"); });
+});
+
 process.exit(R.done());

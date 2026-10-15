@@ -25,6 +25,10 @@ const DOSE_FRINGE_MAX = 100;
 const POUR_RATE_GENTLE = 5.5;
 const POUR_RATE_FAST = 7.5;
 const FAST_METHODS = ["classic", "osamah"];
+// Per-method rates taken from each method's own published recipe.
+// Hoffmann: 30g/500g, 240g poured between 0:45 and 1:15 = 8 ml/s (hario-usa.com).
+// Osamah strength pours run slightly gentler at 7 ml/s.
+const METHOD_RATE = { classic: 8, osamah: 7 };
 
 let loaded = false;
 
@@ -63,7 +67,7 @@ function load() {
   global.navigator = {};
   global.localStorage = global.window.localStorage;
 
-  eval(code.replace(/\bconst /g, "var ").replace(/\blet /g, "var "));
+  eval(code.replace(/\bconst (?=[A-Za-z_$])/g, "var ").replace(/\blet (?=[A-Za-z_$][\w$]*\s*[=,;])/g, "var "));
 
   // Expose the engine internals the tests need.
   module.exports.buildRecipe   = buildRecipe;
@@ -77,6 +81,21 @@ function load() {
   module.exports.STRENGTHS     = STRENGTHS;
   module.exports.GRINDOFF      = GRINDOFF;
   module.exports.state         = state;
+  // Arabic rendering: tests must translate the way the app does, via tr().
+  module.exports.tr            = (s) => tr(s);
+  module.exports.setLang       = (l) => { lang = l; };
+  // machine cards
+  module.exports.machinePanel  = () => machinePanel();
+  module.exports.doseLimit     = () => doseLimit();
+  module.exports.MACHINE_MAXDOSE = MACHINE_MAXDOSE;
+  // bag library internals, for the saved-bag regression tests
+  module.exports.saveNew       = saveNew;
+  module.exports.logBrew       = logBrew;
+  module.exports.resetBuilder  = resetBuilder;
+  module.exports.getLibrary    = () => LIBRARY;
+  module.exports.clearLibrary  = () => { LIBRARY.length = 0; };
+  module.exports.getActiveBag  = () => activeBagId;
+  module.exports.defaults      = () => JSON.parse(JSON.stringify(STATE_DEFAULTS));
   loaded = true;
   return module.exports;
 }
@@ -104,6 +123,7 @@ function splitPours(recipe) {
 }
 
 function pourRateFor(goalId) {
+  if (METHOD_RATE[goalId]) return METHOD_RATE[goalId];
   return FAST_METHODS.indexOf(goalId) >= 0 ? POUR_RATE_FAST : POUR_RATE_GENTLE;
 }
 
@@ -149,6 +169,6 @@ function Reporter(title) {
 module.exports = {
   load, base, fmt, splitPours, pourRateFor, brewerKind, Reporter,
   DOSE_MIN, DOSE_MAX, DOSE_FRINGE_MIN, DOSE_FRINGE_MAX,
-  POUR_RATE_GENTLE, POUR_RATE_FAST, FAST_METHODS,
+  POUR_RATE_GENTLE, POUR_RATE_FAST, FAST_METHODS, METHOD_RATE,
   APP_PATH
 };

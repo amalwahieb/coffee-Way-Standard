@@ -229,14 +229,14 @@ dripper chosen on the Build page.
 
 | Machine | Real limit | Cap |
 |---|---|---|
-| xBloom Studio | A stated maximum dose of 25g. Reviewers list it as a drawback: batch brewing is tricky because of it | **25g** |
+| xBloom Studio | xBloom's own page gives the Omni Dripper 2 a recommended dose of 5–18g (also Ozone Coffee, xbloom.au, Nucleus Coffee). An older Tom's Guide review said 25g | **18g** |
 | Fellow Aiden | A 1.5-litre tank across 1–10 cups. At the weakest ratio the app uses (1:17), 1500 ÷ 17 gives the most that always fits | **88g** |
 
 The Aiden is the only thing in the app that takes more coffee than a Chemex. The
-xBloom is the strictest — its 25g ceiling is well below every manual brewer, so
-without this the app would have suggested a dose that physically cannot be loaded.
+xBloom is the strictest — its 18g ceiling is well below every manual brewer. The
+limit applies only on the Machine card; your Build page dose is never changed.
 
-Sources: Tom's Guide xBloom Studio specs (maximum dose 25g); Tom's Guide and
+Sources: xbloom.com Omni Dripper 2 (recommended dose 5–18g); Tom's Guide and
 TechRadar Fellow Aiden reviews (1.5L capacity, 1–10 cups).
 
 Sources: Hario V60 size guides; Wrecking Ball and Kaldi's Kalita Wave dose
@@ -250,9 +250,10 @@ step, from about 180µm at setting 1 (espresso) to 1050µm at setting 80 (cold
 brew). Filter work sits at **30–45**, which is where the app now starts.
 
 It also gets special treatment on the Machine page: because the xBloom grinds for
-you, selecting it switches to its built-in grinder and shows the setting on its
-own 1–80 scale. Whatever grinder you picked on the Build page is set aside while
-the machine is selected, and restored when you leave it.
+you, its card works out the setting on the xBloom's own 1–80 scale. This happens
+on a copy of your recipe, so the grinder you picked on the Build page is never
+changed. (Before 2.11.7 the app swapped your Build grinder to the xBloom and did
+not swap it back.)
 
 **The Fellow Aiden is deliberately the opposite.** It has no grinder — it is a
 brewer only — so Aiden owners grind on whatever they own, and the Build page

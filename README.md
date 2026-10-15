@@ -1,83 +1,119 @@
-# Coffee Way Standard — test suite
+# Coffee Way Standard (CWS)
 
-Automated checks that run against `brew.html` (the source of truth). They load the
-app's brewing engine directly and verify it produces correct, physically possible
-recipes across every combination of options.
+**A deterministic pour-over recipe app — you enter your bag and grinder, it gives you one exact recipe.**
+Bilingual (English / العربية). Runs on iPhone via Scriptable, and in any web browser.
 
-## Running
+By **Abdulmajeed Mohammed Alwahieb** · إعداد **عبدالمجيد محمد الوهيب**
 
-From the repo root:
+---
+
+## What it does
+
+Coffee Way Standard turns what you know about a coffee bag — origin, process, roast, roast date, dose — plus your grinder into a single, specific recipe: grind setting, water temperature, ratio, a timed pour schedule, and an expected finish-time window. No guessing, no vague "medium grind." Every number is either sourced from a named method or openly disclosed.
+
+Core ideas:
+
+- **One bag in, one recipe out.** The engine reads your inputs and computes grind, temperature, ratio, and a pour-by-pour timeline for your exact setup.
+- **Freshness is live.** Enter the roast date once; the app tracks where the bag sits on its rest curve and adjusts grind and temperature as it ages — and tells you exactly what it changed.
+- **It explains itself.** A "Why this recipe?" panel states the reasoning behind every choice, including any age adjustments.
+- **It learns your cups.** Log finish times and verdicts; after a few great brews on one bag, the app calibrates that bag's finish window to *your* results instead of the book estimate.
+- **It's tuned to your grinder.** Calibrate once — tell it the setting you actually dial — and every recipe on that grinder shifts to *your* numbers, not the book's. It also keeps learning from your great brews. A worn or non-standard burr set stops being a problem.
+
+---
+
+## Dialing in your grind
+
+The grind number is the least portable thing in coffee — the same "6" means different things on different grinders, and burrs drift as they wear. Coffee Way Standard attacks this from three sides:
+
+- **A grind reference in Learn.** A clear coarse-to-fine strip showing what each grind should look like, from cold brew down to espresso, with micron sizes — so you have a visual target, not just a number.
+- **Your brew time tells you the fix.** When a brew runs faster or slower than its window, the app doesn't just flag it — it prescribes the grind move: "grind is too coarse, try 1–2 steps finer" (or coarser).
+- **35 grinders built in, every one checked against manufacturer documentation.** See `GRINDERS.md` for what each one's dial really does and the source it was checked against.
+- **Build any grinder.** If your grinder isn’t in the list — or doesn’t exist in any app — pick “Set up my grinder,” enter its units and range, and run a short taste test (brew coarse, brew fine, tell it which was better). It builds a calibrated profile and saves it by name. The app doesn’t need to know every grinder; it helps you map yours.
+- **Calibrate to your grinder, once.** Tell the app what you actually dial ("it shows 6, I use 8.2 on my Opus") and it learns the difference as an offset. Every recipe on that grinder — hot, iced, any dose, any method — then shifts by your offset, so you always see *your* number. Each grinder keeps its own calibration, so switching between them just works.
+- **Your grinder fingerprint.** On top of that, every great brew you log reinforces what setting works on *your* grinder — a running record of your proven range, so your own results keep the calibration honest as burrs wear.
+
+On top of these, a **dial-in trail** records each adjustment as you go — taste-based or finish-time-based — so you can see the path you took and step back if you log something by mistake.
+
+Together these move grind confidence away from "stare at the grounds and guess" toward "your brew and your history tell you."
+
+---
+
+## Coverage
+
+- **20 origins** — Ethiopia, Kenya, Colombia, Peru, Brazil, Guatemala, Costa Rica, Rwanda/Burundi, Panama Gesha, Yemen, Saudi Arabia (Khawlani), Indonesia/Sumatra, Honduras, El Salvador, India, Tanzania/Uganda, Mexico, Thailand, and an "other / unsure" catch-all.
+- **7 processes** — Washed, Honey, Natural, Anaerobic, Co-fermented/Infused, Wet-hulled (Sumatra), Decaf.
+- **35 grinders** — hand and electric, including the Saudi market (Comandante, 1Zpresso, Timemore hand + Sculptor, Kingrinder K0–K6, MHW-3Bomber, Fellow, Baratza, DF64, Varia, MIBRU). Each shows settings in its own real format — clicks, numbers, rotations, or number-plus-micro-clicks (e.g. the Fellow Opus reads "5 · 2 clicks", the way its dial actually works).
+- **5 brewers** — V60, Kalita Wave, Chemex, AeroPress, Switch.
+- **Methods** — Hoffmann Ultimate V60, Tetsu Kasuya 4:6 (strength sets the pour count), a locally-calibrated Osamah method, and 50/50; hot and iced (flash).
+- **Machine sheets** — Fellow Aiden and xBloom, with per-pour temperature profiling.
+
+---
+
+## Staying updated
+
+The web version (GitHub Pages) checks for new releases on load and shows a "reload for update" banner when one is available — it never interrupts a running brew timer. The current version is shown in the app header. The Scriptable version is an offline copy on your device, so it updates only when you re-import the file; the visible version number tells you when a re-import is due.
+
+---
+
+## Files in this repository
+
+| File | What it is |
+|---|---|
+| `brew.html` | The complete app — self-contained, runs in any browser. |
+| `index.html` | A copy of `brew.html` served by GitHub Pages (the live link). |
+| `version.json` | Version marker the web app reads to detect updates. |
+| `brew.js` | The Scriptable wrapper — same app plus iPhone saving and the home-screen widget. |
+| `Coffee Way Standard.scriptable` | The installable Scriptable package (import this on iPhone). |
+| `CWS Origin Scout.scriptable` | Helper agent: look up any origin or process on demand. |
+| `CWS Trend Scout.scriptable` | Helper agent: monthly scan of specialty-coffee trends with suggestions. |
+| `scout-origin.js`, `scout-trends.js` | Plain-text source of the two agents. |
+
+---
+
+## How to run it
+
+**On iPhone (best experience — saving + widget):**
+1. Install **Scriptable** from the App Store (free).
+2. Open `Coffee Way Standard.scriptable` and tap **Add to My Scripts**. *(This step matters — importing to preview does not install it.)*
+3. Run it from Scriptable, or add the Scriptable widget to your home screen and point it at Coffee Way Standard.
+
+**In a browser (any phone or computer):**
+- Open `brew.html`. It works fully offline and remembers your bags on that one device.
+
+---
+
+## The freshness → recipe chain
+
+The app treats origin, roast, and roast date as one connected system, not three separate facts:
+
+- **Origin** sets the bean's density and character, which is why roasters pick a roast level to match it.
+- **Roast** sets the clock — darker roasts degas faster and fade sooner; lighter roasts rest longer and last longer.
+- **Roast date** only means something combined with the other two: the same day count is "at its peak" for one coffee and "past it" for another.
+
+Enter the roast date once and the chain runs itself — rest window, freshness stage, grind and temperature nudges, and the widget's day counter.
+
+---
+
+## Language
+
+Everything is bilingual. The app has its own English / العربية toggle; the home-screen widget follows your iPhone's system language. Units localize both ways (°C ↔ °م, g ↔ غ, ml ↔ مل, clicks ↔ نقرة).
+
+---
+
+## A note on sourcing
+
+Every precise number in this app is either cited to a named method (Hoffmann, Kasuya) or openly disclosed as a local calibration (the Osamah method, tuned from real stopwatch readings). Where a value is an interpolation between measured points, the app says so. Nothing is invented precision.
+
+---
+
+*Coffee Way Standard is a personal project, shared for anyone who wants a repeatable, honest pour-over.*
+
+## Tests
+
+Automated checks live in `tests/`. Run them all with:
 
 ```
 node tests/run-all.js
 ```
 
-Or a single file:
-
-```
-node tests/05-pours.js
-```
-
-Every test exits non-zero on failure, so `run-all.js` can gate a release.
-No dependencies — plain Node.
-
-## What each file covers
-
-| File | Covers |
-|---|---|
-| `01-parse.js` | `brew.html` parses cleanly and contains no backslash (a backslash breaks the Scriptable build) |
-| `02-functional.js` | Every brew style, origin, roast, brewer and grinder produces a valid recipe |
-| `03-grinders.js` | All 35 grinders: dial-in moves the right way, settings stay inside the real dial range, calibration round-trips |
-| `04-dose-grind.js` | Changing the dose never jumps the grind more than one click, and always in the right direction |
-| `05-pours.js` | The pour schedule is physically possible — pourable volumes, realistic timing, sane ratios, bloom, drain and finish |
-| `06-bad-input.js` | Garbage or outdated saved data can't crash the app or produce nonsense |
-| `07-grind-factors.js` | Roast, freshness, dose, origin and manual dial-in each affect the grind correctly and independently |
-| `08-bags.js` | Saved bags: an unbrewed bag shows no brew log, and deleting the active bag resets the builder instead of leaking its settings into the next one |
-| `09-arabic.js` | Every label and note renders in Arabic through `tr()` across all styles, brewers, strengths and doses |
-| `10-relaunch.js` | Reopening the app starts a fresh brew, keeps your grinder and brewer, and carries no orphan dial-in trail into the next bag |
-| `11-machines.js` | The Machine page reads the Build recipe without changing it; the xBloom card uses its own 1–80 grind scale, the 18g dose limit and recipe temperatures up to 95°C; no English ON/OFF in Arabic |
-
-`harness.js` loads the engine and holds the shared constants; it isn't a test itself.
-
-## Dose range
-
-Tests treat **15–50g** as the real-world envelope and enforce full pour physics
-there. Doses outside it (8–14g and 51–100g) only have to avoid crashing — almost
-nobody brews there, and letting extreme doses drive the tuning distorts the
-settings that matter.
-
-## The numbers behind the checks
-
-These aren't arbitrary thresholds:
-
-- **Pour rate 4–6 ml/s.** 2025 World Brewers Cup finalists poured in this range on
-  the main pour. Gentle even-pour methods are checked at 5.5 ml/s; deliberately
-  fast pours (Hoffmann, the Osamah strength pours) at 7.5 ml/s.
-- **Bloom 1.5–3.5× the dose**, allowing up to 4.6× for immersion brewers and for
-  Kasuya 4:6, which folds the bloom into a deliberately large first pour.
-- **Ratio 1:10–1:20**, covering everything from a strong brew to a light one.
-- **Bigger dose drains slower** (Darcy's law — a deeper bed resists flow), so the
-  grind goes slightly coarser and the finish window moves later.
-- **Lighter roasts grind finer**; coffee grinds finer as it ages and degasses.
-
-## Adding a test
-
-Copy the shape of an existing file:
-
-```js
-const H = require("./harness"); H.load();
-const R = H.Reporter("08 MY CHECK");
-R.count();
-if (somethingWrong) R.flag("category", "what and where");
-process.exit(R.done());
-```
-
-`H.base({...})` gives a known-good recipe state to override. `H.splitPours(recipe)`
-separates real pours from the drain marker. `H.DOSE_MIN` / `H.DOSE_MAX` are the
-real-world bounds.
-
-## After changing brew.html
-
-Always regenerate the derived files (`index.html`, `brew.js`,
-`Coffee Way Standard.scriptable`) and re-run the suite before pushing.
-`index.html` must stay byte-identical to `brew.html`.
+See `tests/README.md` for what each file covers.

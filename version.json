@@ -1,4 +1,4 @@
 {
-  "version": "2.11.7",
-  "notes": "The Machine page no longer changes your Build grinder or dose."
+  "version": "2.11.8",
+  "notes": "Pulsar: every brew style keeps its own pour instructions."
 }

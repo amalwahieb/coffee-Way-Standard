@@ -1,3 +1,23 @@
+## 2.11.8
+
+Pulsar: every brew style keeps its own instructions.
+
+- On the Pulsar, every pour note was replaced by the same generic "pour in short
+  bursts" lines, so Everyday, Kasuya 4:6, Hoffmann and Osamah all told you to do
+  the same thing. For Hoffmann it contradicted the method (one quick, steady 60%
+  pour, then a stir and a final swirl) and dropped the stir.
+- Now the Pulsar only adds what is specific to it: close the valve for the first
+  step, open it on the second. Every step keeps the style's own note. Kasuya's
+  first pour is no longer called "this bloom".
+- Pulsar description: "keep about 1cm of water above the bed" (was 1-2cm), per
+  Jonathan Gagne and Kaldi's; the pour technique now follows your brew style.
+- Checked against 16 published Pulsar recipes (NextLevel, Gagne, Pocketscience,
+  Kaldi's, CoffeeGeek, Rao): ratio, bloom, grind direction, temperature, brew
+  time and iced ice share were already accurate and are unchanged.
+
+Tests
+- New file 12-pulsar.js (118 checks). Fails on the previous version.
+
 ## 2.11.7
 
 The Machine page no longer changes your Build recipe.

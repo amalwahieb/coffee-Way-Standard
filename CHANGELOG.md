@@ -1,3 +1,15 @@
+## 2.11.9
+
+Pulsar.
+
+- New red tip under the Pulsar description: "Sweeter cup: open the valve one
+  pour later. It will finish a little later." Keeping the valve closed one pour
+  longer turns any brew style into the steep-then-pour method most published
+  Pulsar recipes use (CoffeeGeek, Steep & Flush, Rohan); Jonathan Gagne notes
+  a longer steep gives a sweeter, deeper cup. No new brew style or setting.
+- Hoffmann on the Pulsar no longer says "keeping the cone full" - the Pulsar is
+  a cylinder, and its guidance is about 1cm above the bed. The V60 keeps it.
+
 ## 2.11.8
 
 Pulsar: every brew style keeps its own instructions.

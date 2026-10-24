@@ -1,3 +1,29 @@
+## 2.12.0
+
+Pulsar + Everyday follows Jonathan Gagne's recipe.
+
+- Applies only to the Pulsar with the Everyday style, served hot. Every other
+  brewer, style and iced brew is unchanged - verified by comparing the full
+  output of all 5,310 other combinations, in both languages, before and after.
+- Taken from Gagne's recipe card on nextlevelbrewer.com: bloom 3x with the
+  valve open, close it as soon as it drips, swirl lightly; open the valve at
+  0:30; then small pulses into the centre of the cap keeping the water under
+  1cm until the total; about 3:30 for 20g.
+- Pulses are about 40ml: 1cm over the Pulsar's 7.7cm bore is about 47ml. They
+  are spaced 20s apart, which puts the last 20g pulse at 2:30 and the finish at
+  about 3:30. The note says the timing is a guide - pour when the water is
+  almost down to the bed, as Gagne describes.
+- Ratio, temperature and grind were already in line with Gagne (1:17, 97-99C
+  for light roasts and cooler for darker, about 800um / coarser than a V60), so
+  they are unchanged and the strength setting still works.
+- A note credits the recipe, and the red sweeter-cup tip becomes "open the
+  valve at 1:00 instead of 0:30" - the timing in Gagne's own article.
+- Arabic labels added for Pour 10-20 (large Pulsar doses have up to 15 pulses).
+
+Tests
+- 12-pulsar.js checks the Gagne recipe at every dose from 15g to 40g, including
+  that the pulses add up exactly to the recipe water. Fails on 2.11.9.
+
 ## 2.11.9
 
 Pulsar.

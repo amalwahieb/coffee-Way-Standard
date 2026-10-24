@@ -10,6 +10,7 @@ const R = H.Reporter("12 PULSAR x BREW STYLES");
 
 H.GOALS.map(g => g.id).forEach(goal => ["hot", "iced"].forEach(serve => [15, 20].forEach(dose => {
   const tag = goal + "/" + serve + "/" + dose + "g";
+  if (goal === "everyday" && serve === "hot") return;   // follows Gagne's recipe - checked below
   const pul = H.splitPours(H.buildRecipe(H.base({ brewer: "pulsar", goal, serve, dose }))).pours;
   const v60 = H.splitPours(H.buildRecipe(H.base({ brewer: "v60", goal, serve, dose }))).pours;
   R.count();
@@ -43,4 +44,40 @@ H.BREWERS.forEach(b => {
   if (b.id !== "pulsar" && tip.length) R.flag("tip", b.id + " shows the Pulsar-only tip");
 });
 
-process.exit(R.done("every brew style on the Pulsar keeps its own instructions"));
+// --- Everyday + Pulsar + hot follows Jonathan Gagne's recipe (NextLevel card) ---
+// Bloom 3x with the valve open, close at first drips, light swirl; open at 0:30;
+// small pulses into the centre of the cap keeping the water under 1cm (~47ml over
+// the Pulsar's 7.7cm bore); about 3:30 total at 20g.
+for (let dose = 15; dose <= 40; dose++) {
+  const r = H.buildRecipe(H.base({ brewer: "pulsar", goal: "everyday", dose }));
+  const p = H.splitPours(r).pours, tag = "Gagne " + dose + "g";
+  R.count();
+  if (!/Valve open/.test(H.tr(p[0].note || "")) || !/starts to drip/.test(H.tr(p[0].note || "")))
+    R.flag("gagne-bloom", tag + ": bloom is not 'valve open, close at first drips'");
+  R.count();
+  if (p[1].t !== 30 || !/Open the valve/.test(H.tr(p[1].note || ""))) R.flag("gagne-open", tag + ": valve does not open at 0:30");
+  R.count();
+  if (Math.abs(p[0].pour / dose - 3) > 0.4) R.flag("gagne-bloom", tag + ": bloom is " + (p[0].pour / dose).toFixed(1) + "x, Gagne uses 3x");
+  p.slice(1).forEach(x => { R.count(); if (x.pour > 47) R.flag("gagne-pulse", tag + ": a " + x.pour + "ml pulse would rise above 1cm"); });
+  R.count();
+  const sum = p.reduce((a, x) => a + x.pour, 0);
+  if (sum !== r.totalWater || p[p.length - 1].cum !== r.totalWater)
+    R.flag("gagne-water", tag + ": pulses add up to " + sum + "ml, recipe water is " + r.totalWater + "ml");
+}
+{
+  const r = H.buildRecipe(H.base({ brewer: "pulsar", goal: "everyday", dose: 20 }));
+  const drain = H.splitPours(r).drain, m = /aim (\d+):(\d+)–(\d+):(\d+)/.exec(H.tr(drain.note));
+  R.count();
+  if (!m || (+m[1] * 60 + +m[2]) > 210 || (+m[3] * 60 + +m[4]) < 210)
+    R.flag("gagne-time", "20g finish window does not include Gagne's 3:30: " + (m ? m[0] : "none"));
+  const notes = r.notes || [];
+  R.count(); if (!notes.some(n => /Gagn/.test(H.tr(n.text)))) R.flag("gagne-credit", "recipe is not credited to Jonathan Gagne");
+  R.count(); if (!notes.some(n => n.red && /1:00/.test(H.tr(n.text)))) R.flag("gagne-tip", "sweeter-cup tip should say open at 1:00");
+}
+// Iced Everyday on the Pulsar keeps the normal Pulsar steps (Gagne's recipe is hot).
+{
+  const p = H.splitPours(H.buildRecipe(H.base({ brewer: "pulsar", goal: "everyday", serve: "iced" }))).pours;
+  R.count(); if (!/Close the valve first/.test(H.tr(p[0].note || ""))) R.flag("gagne-iced", "iced Everyday changed - Gagne's recipe should be hot only");
+}
+
+process.exit(R.done("every brew style on the Pulsar keeps its own instructions; Everyday follows Gagne"));

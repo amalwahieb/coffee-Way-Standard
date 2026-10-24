@@ -36,7 +36,7 @@ No dependencies — plain Node.
 | `09-arabic.js` | Every label and note renders in Arabic through `tr()` across all styles, brewers, strengths and doses |
 | `10-relaunch.js` | Reopening the app starts a fresh brew, keeps your grinder and brewer, and carries no orphan dial-in trail into the next bag |
 | `11-machines.js` | The Machine page reads the Build recipe without changing it; the xBloom card uses its own 1–80 grind scale, the 18g dose limit and recipe temperatures up to 95°C; no English ON/OFF in Arabic |
-| `12-pulsar.js` | On the Pulsar every brew style keeps its own pour instructions; the valve steps are added, not substituted |
+| `12-pulsar.js` | On the Pulsar every brew style keeps its own pour instructions; Everyday (hot) follows Jonathan Gagné's recipe: valve-open 3× bloom, open at 0:30, pulses under 1cm that add up exactly, about 3:30 at 20g |
 
 `harness.js` loads the engine and holds the shared constants; it isn't a test itself.
 

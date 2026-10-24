@@ -86,6 +86,8 @@ function load() {
   module.exports.setLang       = (l) => { lang = l; };
   // machine cards
   module.exports.machinePanel  = () => machinePanel();
+  module.exports.compactCode   = () => compactCode();
+  module.exports.PROCESSES     = PROCESSES;
   module.exports.doseLimit     = () => doseLimit();
   module.exports.MACHINE_MAXDOSE = MACHINE_MAXDOSE;
   // bag library internals, for the saved-bag regression tests

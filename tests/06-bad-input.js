@@ -40,4 +40,21 @@ H.allGrinders().forEach(g=>{
     delete H.GRINDOFF[g.id];
   });
 });
+// Share codes must always carry the process. Codes leave out settings that match
+// the default, so when the default changed from washed to natural, old washed
+// codes (no process field) would have imported as natural. New codes include it;
+// old codes without it are read as washed by the importer.
+{
+  const keep = JSON.parse(JSON.stringify(H.state));
+  ["natural", "washed", "honey"].forEach(pr => {
+    H.state.process = pr;
+    const d = JSON.parse(Buffer.from(H.compactCode().slice(5), "base64").toString("utf8"));
+    R.count();
+    if (d.process !== pr) R.flag("share-code", "a " + pr + " share code does not carry its process");
+  });
+  R.count();
+  if (H.PROCESSES[0].id !== "natural") R.flag("process-order", "Natural should be first in the process list");
+  Object.keys(H.state).forEach(k => delete H.state[k]); Object.assign(H.state, keep);
+}
+
 process.exit(R.done());

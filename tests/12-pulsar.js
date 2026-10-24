@@ -52,8 +52,13 @@ for (let dose = 15; dose <= 40; dose++) {
   const r = H.buildRecipe(H.base({ brewer: "pulsar", goal: "everyday", dose }));
   const p = H.splitPours(r).pours, tag = "Gagne " + dose + "g";
   R.count();
-  if (!/Valve open/.test(H.tr(p[0].note || "")) || !/starts to drip/.test(H.tr(p[0].note || "")))
-    R.flag("gagne-bloom", tag + ": bloom is not 'valve open, close at first drips'");
+  if (!/^Open the valve/.test(H.tr(p[0].note || "")) || !/starts to drip/.test(H.tr(p[0].note || "")))
+    R.flag("gagne-bloom", tag + ": bloom does not start with 'Open the valve' and close at first drips");
+  R.count();
+  if (!p[0].valveTag || !/Open valve, close at first drip/.test(p[0].valveTag)) R.flag("valve-tag", tag + ": bloom has no valve marker for the timer");
+  R.count();
+  if (p[1].valveTag !== "Open the valve") R.flag("valve-tag", tag + ": the 0:30 step has no 'Open the valve' marker for the timer");
+  p.slice(2).forEach(x => { R.count(); if (x.valveTag) R.flag("valve-tag", tag + ": a later pulse is marked as a valve step"); });
   R.count();
   if (p[1].t !== 30 || !/Open the valve/.test(H.tr(p[1].note || ""))) R.flag("gagne-open", tag + ": valve does not open at 0:30");
   R.count();
@@ -76,6 +81,25 @@ for (let dose = 15; dose <= 40; dose++) {
   R.count(); if (notes.some(n => /do not swirl/.test(H.tr(n.text)))) R.flag("swirl-note", "Pulsar agitation note still says not to swirl");
   R.count(); if (!notes.some(n => n.red && /1:00/.test(H.tr(n.text)))) R.flag("gagne-tip", "sweeter-cup tip should say open at 1:00");
 }
+// Other Pulsar styles: the timer marks "Close the valve" on step 1 and "Open the valve" on step 2.
+H.GOALS.map(g => g.id).forEach(goal => ["hot", "iced"].forEach(serve => {
+  if (goal === "everyday" && serve === "hot") return;
+  const p = H.splitPours(H.buildRecipe(H.base({ brewer: "pulsar", goal, serve }))).pours;
+  R.count();
+  if (p[0].valveTag !== "Close the valve" || p[1].valveTag !== "Open the valve")
+    R.flag("valve-tag", goal + "/" + serve + ": timer valve markers missing (" + p[0].valveTag + " / " + p[1].valveTag + ")");
+}));
+// Setup line ("Before you start") for the Pulsar only; valve markers never appear on other brewers.
+H.BREWERS.forEach(b => {
+  const r = H.buildRecipe(H.base({ brewer: b.id }));
+  R.count();
+  const has = (r.notes || []).some(n => /Before you start/.test(H.tr(n.label)));
+  if (b.id === "pulsar" && !has) R.flag("setup", "Pulsar has no 'Before you start' setup line");
+  if (b.id !== "pulsar" && has) R.flag("setup", b.id + " shows the Pulsar setup line");
+  R.count();
+  if (b.id !== "pulsar" && r.pours.some(p => p.valveTag)) R.flag("valve-tag", b.id + " has Pulsar valve markers");
+});
+
 // Iced Everyday on the Pulsar keeps the normal Pulsar steps (Gagne's recipe is hot).
 {
   const p = H.splitPours(H.buildRecipe(H.base({ brewer: "pulsar", goal: "everyday", serve: "iced" }))).pours;

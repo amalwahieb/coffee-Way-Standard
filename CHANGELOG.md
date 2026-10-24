@@ -1,3 +1,29 @@
+## 2.12.1
+
+Pulsar: the valve is clear in the timer.
+
+- The timer now shows valve changes where you look mid-brew: in the big orange
+  line ("Open the valve · pour to 99ml"), in "Coming up" before the step
+  arrives, and under the step in the list. Before, the valve was only in the
+  small grey note, so at 0:30 the screen just said POUR. Applies to every
+  Pulsar brew (close/open on the first two steps; Jonathan Gagne's Everyday:
+  "Open valve, close at first drip" on the bloom, "Open the valve" at 0:30).
+- Everyday on the Pulsar: the bloom now starts "Open the valve, pour this over
+  the cap, then close it as soon as it starts to drip" - an instruction rather
+  than "Valve open:". Recipe and timings unchanged.
+- New Pulsar note "Before you start": seat the filter with the valve closed and
+  water just over the ridges, then drain - the setup on Gagne's card, which stops
+  air getting trapped under the filter.
+- Pulsar agitation note no longer says "do not swirl once the valve is open",
+  which contradicted the recipes and the style notes, and now has Arabic.
+- Arabic: the Hoffmann card header showed "classic" in English; now كلاسيكي.
+
+Tests
+- 09-arabic.js also checks the notes under the steps and the card header.
+- 12-pulsar.js checks the valve markers, the setup line, the swirl note and that
+  Pulsar Everyday stays labelled Everyday.
+- All 5,400 combinations compared with 2.12.0: nothing outside the Pulsar changed.
+
 ## 2.12.0
 
 Pulsar + Everyday follows Jonathan Gagne's recipe.

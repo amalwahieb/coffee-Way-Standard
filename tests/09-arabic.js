@@ -26,6 +26,15 @@ for (let dose = H.DOSE_MIN; dose <= H.DOSE_MAX; dose++)
       try { r = H.buildRecipe(H.base({ dose, goal: g, brewer: b, strength: st, serve })); }
       catch (e) { return; }
       const tag = dose + "g " + g + "/" + b + "/" + st + "/" + serve;
+      // notes under the steps, and the card header ("Pulsar · Scott Rao")
+      const brand = /V60|Pulsar|Hoffmann|Kasuya|AeroPress|Chemex|Kalita|Switch|Omni|WDT/g;
+      (r.notes || []).forEach(n => {
+        const L = H.tr(n.label), T = H.tr(n.text).replace(brand, "");
+        if (/[A-Za-z]{4,}/.test(L) && !seen["NL" + L]) { seen["NL" + L] = 1; R.flag("english-note-label", tag + ': "' + L + '"'); }
+        if (/[A-Za-z]{4,}/.test(T) && !seen["NT" + T]) { seen["NT" + T] = 1; R.flag("english-card-note", tag + ': "' + T.slice(0, 80) + '"'); }
+      });
+      const head = String(r.method || "").replace(brand, "");
+      if (/[A-Za-z]{4,}/.test(head) && !seen["H" + head]) { seen["H" + head] = 1; R.flag("english-header", tag + ': "' + r.method + '"'); }
       r.pours.forEach(p => {
         const label = H.tr(p.label);
         const note = H.tr(p.note || "");

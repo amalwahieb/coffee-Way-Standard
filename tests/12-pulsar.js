@@ -72,6 +72,8 @@ for (let dose = 15; dose <= 40; dose++) {
     R.flag("gagne-time", "20g finish window does not include Gagne's 3:30: " + (m ? m[0] : "none"));
   const notes = r.notes || [];
   R.count(); if (!notes.some(n => /Gagn/.test(H.tr(n.text)))) R.flag("gagne-credit", "recipe is not credited to Jonathan Gagne");
+  R.count(); if (/Rao|Gagn/.test(r.method)) R.flag("everyday-header", 'Pulsar Everyday must stay Everyday, not look like a new style: "' + r.method + '"');
+  R.count(); if (notes.some(n => /do not swirl/.test(H.tr(n.text)))) R.flag("swirl-note", "Pulsar agitation note still says not to swirl");
   R.count(); if (!notes.some(n => n.red && /1:00/.test(H.tr(n.text)))) R.flag("gagne-tip", "sweeter-cup tip should say open at 1:00");
 }
 // Iced Everyday on the Pulsar keeps the normal Pulsar steps (Gagne's recipe is hot).

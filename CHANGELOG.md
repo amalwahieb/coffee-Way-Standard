@@ -1,3 +1,17 @@
+## 2.12.2
+
+- Natural is now first in the process list and the default process. A fresh
+  start brews 2C cooler (91C instead of 93C) as natural coffees call for.
+- Share codes always include the process. Codes shared before this version
+  left it out when it was the old default, so a code with no process imports
+  as washed - old washed codes keep working.
+- Website visitor counting with Cloudflare Web Analytics is on for
+  amalwahieb.github.io. It loads on the website only, never in the iPhone app,
+  and Cloudflare does not track individual visitors.
+
+Tests
+- 06-bad-input.js checks share codes carry the process and Natural is first.
+
 ## 2.12.1
 
 Pulsar: the valve is clear in the timer.

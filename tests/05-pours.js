@@ -37,7 +37,7 @@ function check(dose, goalId, brewerId, strengthId, serve, strict) {
     if (pours[i].cum < pours[i - 1].cum) R.flag("water-decreased", tag + " at step " + i);
     if (pours[i].pour < 0) R.flag("negative-pour", tag + " pour " + i + " = " + pours[i].pour);
   }
-  if (r.temp < 80 || r.temp > 101) R.flag("temp-out-of-range", tag + ": " + r.temp + "C");
+  if (r.temp < 80 || r.temp >= 100) R.flag("temp-out-of-range", tag + ": " + r.temp + "C - nothing may reach 100C");
   if (drain && pours.length && drain.t < pours[pours.length - 1].t) R.flag("drain-before-pour", tag);
   if (r.finishHi && pours.length && r.finishHi < pours[pours.length - 1].t) R.flag("finish-before-pour", tag);
 
@@ -143,6 +143,18 @@ const MAX_POUR_SECONDS = 36;   // 35s limit + 1s of rounding slack
         }
       });
     })));
+})();
+
+// --- nothing may reach 100C: every origin x roast x process x coffee age x brewer x style ---
+(function neverBoiling() {
+  let worst = 0, where = "";
+  H.ORIGINS.forEach(o => H.ROASTS.forEach(ro => ["washed", "natural", "honey"].forEach(pr => [5, 14, 40, 90].forEach(days =>
+    H.BREWERS.forEach(b => H.GOALS.forEach(g => ["hot", "iced"].forEach(serve => {
+      R.count();
+      let r; try { r = H.buildRecipe(H.base({ origin: o.id, roast: ro.id, process: pr, days, brewer: b.id, goal: g.id, serve })); } catch (e) { return; }
+      if (r.temp > worst) { worst = r.temp; where = [o.id, ro.id, pr, days + "d", b.id, g.id, serve].join("/"); }
+    })))))));
+  if (worst >= 100) R.flag("boiling", "a recipe asks for " + worst + "C at " + where + " - nothing may reach 100C");
 })();
 
 const goals = H.GOALS.map(x => x.id);

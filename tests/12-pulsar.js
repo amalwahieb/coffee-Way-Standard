@@ -44,43 +44,68 @@ H.BREWERS.forEach(b => {
   if (b.id !== "pulsar" && tip.length) R.flag("tip", b.id + " shows the Pulsar-only tip");
 });
 
-// --- Everyday + Pulsar + hot follows Jonathan Gagne's recipe (NextLevel card) ---
-// Bloom 3x with the valve open, close at first drips, light swirl; open at 0:30;
-// small pulses into the centre of the cap keeping the water under 1cm (~47ml over
-// the Pulsar's 7.7cm bore); about 3:30 total at 20g.
+// --- Everyday + Pulsar + hot follows Jonathan Gagne's recipe (his article) ---
+// Level the bed; bloom 3x with the valve open, close it gently at the first drip,
+// swirl by the base; open the valve at 1:00; small pulses keeping the slurry about
+// 1cm above the bed; total 3:30-4:30, about 4:00 at 20g; water hotter than usual.
 for (let dose = 15; dose <= 40; dose++) {
   const r = H.buildRecipe(H.base({ brewer: "pulsar", goal: "everyday", dose }));
-  const p = H.splitPours(r).pours, tag = "Gagne " + dose + "g";
+  const p = H.splitPours(r).pours, tag = "Gagne " + dose + "g", b = H.tr(p[0].note || "");
   R.count();
-  if (!/^Open the valve/.test(H.tr(p[0].note || "")) || !/starts to drip/.test(H.tr(p[0].note || "")))
-    R.flag("gagne-bloom", tag + ": bloom does not start with 'Open the valve' and close at first drips");
+  if (!/^Level the bed/.test(b) || !/Open the valve/.test(b) || !/starts to drip/.test(b) || !/by the base/.test(b))
+    R.flag("gagne-bloom", tag + ": bloom is missing level-the-bed / open valve / close at drip / swirl by the base");
   R.count();
-  if (!p[0].valveTag || !/Open valve, close at first drip/.test(p[0].valveTag)) R.flag("valve-tag", tag + ": bloom has no valve marker for the timer");
+  if (Math.abs(p[0].pour / dose - 3) > 0.4) R.flag("gagne-bloom", tag + ": bloom is " + (p[0].pour / dose).toFixed(1) + "x, Gagne uses about 3x");
   R.count();
-  if (p[1].valveTag !== "Open the valve") R.flag("valve-tag", tag + ": the 0:30 step has no 'Open the valve' marker for the timer");
+  if (p[1].t !== 60 || !/Open the valve/.test(H.tr(p[1].note || ""))) R.flag("gagne-open", tag + ": valve does not open at 1:00");
+  R.count();
+  if (!p[0].valveTag || p[1].valveTag !== "Open the valve") R.flag("valve-tag", tag + ": timer valve markers missing");
   p.slice(2).forEach(x => { R.count(); if (x.valveTag) R.flag("valve-tag", tag + ": a later pulse is marked as a valve step"); });
   R.count();
-  if (p[1].t !== 30 || !/Open the valve/.test(H.tr(p[1].note || ""))) R.flag("gagne-open", tag + ": valve does not open at 0:30");
-  R.count();
-  if (Math.abs(p[0].pour / dose - 3) > 0.4) R.flag("gagne-bloom", tag + ": bloom is " + (p[0].pour / dose).toFixed(1) + "x, Gagne uses 3x");
-  p.slice(1).forEach(x => { R.count(); if (x.pour > 47) R.flag("gagne-pulse", tag + ": a " + x.pour + "ml pulse would rise above 1cm"); });
+  if (p.length - 1 > 8) R.flag("gagne-pulse", tag + ": " + (p.length - 1) + " pulses, at most 8 so the brew finishes on time");
+  const limit = dose <= 30 ? 55 : 80;   // about 1cm (~47ml) within his 20-30g range
+  p.slice(1).forEach(x => { R.count(); if (x.pour > limit) R.flag("gagne-pulse", tag + ": a " + x.pour + "ml pulse is far above 1cm"); });
   R.count();
   const sum = p.reduce((a, x) => a + x.pour, 0);
   if (sum !== r.totalWater || p[p.length - 1].cum !== r.totalWater)
     R.flag("gagne-water", tag + ": pulses add up to " + sum + "ml, recipe water is " + r.totalWater + "ml");
+  if (dose >= 20 && dose <= 30) {
+    const m = /aim (\d+):(\d+)–(\d+):(\d+)/.exec(H.tr(H.splitPours(r).drain.note));
+    R.count();
+    if (!m || (+m[1] * 60 + +m[2]) < 210 - 15 || (+m[3] * 60 + +m[4]) > 270 + 15)
+      R.flag("gagne-time", tag + ": finish " + (m ? m[0] : "none") + " is outside Gagne's 3:30-4:30");
+  }
 }
 {
   const r = H.buildRecipe(H.base({ brewer: "pulsar", goal: "everyday", dose: 20 }));
-  const drain = H.splitPours(r).drain, m = /aim (\d+):(\d+)–(\d+):(\d+)/.exec(H.tr(drain.note));
+  const m = /aim (\d+):(\d+)–(\d+):(\d+)/.exec(H.tr(H.splitPours(r).drain.note));
   R.count();
-  if (!m || (+m[1] * 60 + +m[2]) > 210 || (+m[3] * 60 + +m[4]) < 210)
-    R.flag("gagne-time", "20g finish window does not include Gagne's 3:30: " + (m ? m[0] : "none"));
+  if (!m || (+m[1] * 60 + +m[2]) > 240 || (+m[3] * 60 + +m[4]) < 240) R.flag("gagne-time", "20g window does not include 4:00: " + (m ? m[0] : "none"));
   const notes = r.notes || [];
   R.count(); if (!notes.some(n => /Gagn/.test(H.tr(n.text)))) R.flag("gagne-credit", "recipe is not credited to Jonathan Gagne");
-  R.count(); if (/Rao|Gagn/.test(r.method)) R.flag("everyday-header", 'Pulsar Everyday must stay Everyday, not look like a new style: "' + r.method + '"');
+  R.count(); if (/Rao|Gagn/.test(r.method)) R.flag("everyday-header", 'Pulsar Everyday must stay Everyday: "' + r.method + '"');
+  R.count(); if (!notes.some(n => n.red && /Brighter/.test(H.tr(n.label)) && /0:30 instead of 1:00/.test(H.tr(n.text)))) R.flag("gagne-tip", "red tip should be 'Brighter cup: open at 0:30 instead of 1:00'");
   R.count(); if (notes.some(n => /do not swirl/.test(H.tr(n.text)))) R.flag("swirl-note", "Pulsar agitation note still says not to swirl");
-  R.count(); if (!notes.some(n => n.red && /1:00/.test(H.tr(n.text)))) R.flag("gagne-tip", "sweeter-cup tip should say open at 1:00");
 }
+// Temperature: Everyday on the Pulsar is 4C hotter than the same coffee elsewhere,
+// never above 99C; other Pulsar styles keep the normal temperature.
+["light", "medium", "dark"].forEach(ro => ["washed", "natural"].forEach(pr => {
+  const pe = H.buildRecipe(H.base({ brewer: "pulsar", goal: "everyday", roast: ro, process: pr })).temp;
+  const v = H.buildRecipe(H.base({ brewer: "v60", goal: "everyday", roast: ro, process: pr })).temp;
+  R.count();
+  if (pe !== Math.min(99, v + 4)) R.flag("gagne-temp", ro + "/" + pr + ": Pulsar Everyday " + pe + "C, expected " + Math.min(99, v + 4) + "C (V60 " + v + "C + 4, max 99)");
+  ["classic", "osamah", "brighter", "sweeter"].forEach(g => {
+    R.count();
+    const pt = H.buildRecipe(H.base({ brewer: "pulsar", goal: g, roast: ro, process: pr })).temp;
+    const vt = H.buildRecipe(H.base({ brewer: "v60", goal: g, roast: ro, process: pr })).temp;
+    if (pt !== vt) R.flag("other-temp", g + " on the Pulsar changed temperature (" + pt + "C vs " + vt + "C)");
+  });
+  R.count();
+  const it = H.buildRecipe(H.base({ brewer: "pulsar", goal: "everyday", serve: "iced", roast: ro, process: pr })).temp;
+  const iv = H.buildRecipe(H.base({ brewer: "v60", goal: "everyday", serve: "iced", roast: ro, process: pr })).temp;
+  if (it !== iv) R.flag("iced-temp", "iced Everyday on the Pulsar changed temperature (" + it + "C vs " + iv + "C)");
+}));
+
 // Other Pulsar styles: the timer marks "Close the valve" on step 1 and "Open the valve" on step 2.
 H.GOALS.map(g => g.id).forEach(goal => ["hot", "iced"].forEach(serve => {
   if (goal === "everyday" && serve === "hot") return;

@@ -61,6 +61,12 @@ H.ORIGINS.forEach(o => H.ROASTS.forEach(ro => [10, 40, 90].forEach(days =>
     const temps = (H.machinePanel().match(/([\d.]+) °C/g) || []).map(x => parseFloat(x));
     temps.forEach(t => { if (t > worst) { worst = t; where = o.id + "/" + ro.id + "/" + days + "d/" + tp; } });
   }))));
+// Fellow Aiden card: never 100C either.
+H.ORIGINS.forEach(o => H.ROASTS.forEach(ro => [10, 40, 90].forEach(days => ["flat", "desc", "asc"].forEach(tp => {
+  Object.assign(st, { origin: o.id, roast: ro.id, days, dose: 18, tempProfile: tp, machine: "aiden", machineOn: true });
+  R.count();
+  (H.machinePanel().match(/([\d.]+) °C/g) || []).map(x => parseFloat(x)).forEach(t => { if (t >= 100) R.flag("aiden-100", "Aiden card asks for " + t + "C"); });
+}))));
 if (worst > 95) R.flag("xbloom-too-hot", "xBloom card asks for " + worst + "C at " + where + " - its recipes accept up to 95C");
 
 // --- Arabic: no English words on the machine card rows we control ---

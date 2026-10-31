@@ -60,11 +60,19 @@ for (let dose = 15; dose <= 40; dose++) {
   if (p[1].t !== 60 || !/Open the valve/.test(H.tr(p[1].note || ""))) R.flag("gagne-open", tag + ": valve does not open at 1:00");
   R.count();
   if (!p[0].valveTag || p[1].valveTag !== "Open the valve") R.flag("valve-tag", tag + ": timer valve markers missing");
-  p.slice(2).forEach(x => { R.count(); if (x.valveTag) R.flag("valve-tag", tag + ": a later pulse is marked as a valve step"); });
   R.count();
-  if (p.length - 1 > 8) R.flag("gagne-pulse", tag + ": " + (p.length - 1) + " pulses, at most 8 so the brew finishes on time");
+  if (p.length !== 2 || H.tr(p[1].label) !== "Pulses") R.flag("gagne-merged", tag + ": expected Bloom + one Pulses step, got " + p.map(x => H.tr(x.label)).join(", "));
+  R.count();
+  if (!p[1].pourFor) R.flag("gagne-pulse", tag + ": pulse step has no pulsing time for the timer");
+  const pulses = Math.round(((p[1].pourFor || 8) - 8) / 20) + 1;
+  R.count();
+  if (pulses > 8) R.flag("gagne-pulse", tag + ": " + pulses + " pulses, at most 8 so the brew finishes on time");
   const limit = dose <= 30 ? 55 : 80;   // about 1cm (~47ml) within his 20-30g range
-  p.slice(1).forEach(x => { R.count(); if (x.pour > limit) R.flag("gagne-pulse", tag + ": a " + x.pour + "ml pulse is far above 1cm"); });
+  R.count();
+  if (p[1].pour / pulses > limit) R.flag("gagne-pulse", tag + ": pulses of " + Math.round(p[1].pour / pulses) + "ml are far above 1cm");
+  R.count();
+  if (!/about 1cm/.test(H.tr(p[1].note || "")) || H.tr(p[1].note || "").indexOf(String(r.totalWater) + "ml") < 0)
+    R.flag("gagne-pulse", tag + ": pulse note must say about 1cm and the total (" + r.totalWater + "ml)");
   R.count();
   const sum = p.reduce((a, x) => a + x.pour, 0);
   if (sum !== r.totalWater || p[p.length - 1].cum !== r.totalWater)

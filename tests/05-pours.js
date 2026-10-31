@@ -62,6 +62,14 @@ function check(dose, goalId, brewerId, strengthId, serve, strict) {
     const nextT = (i + 1 < pours.length) ? pours[i + 1].t : (drain ? drain.t : pours[i].t + 999);
     const window = nextT - pours[i].t;
     const vol = pours[i].pour;
+    if (pours[i].pourFor) {
+      // A pulsed step: small pours spread over pourFor seconds, ~1cm (~47ml) each.
+      const pulses = Math.round((pours[i].pourFor - 8) / 20) + 1;
+      if (vol / pours[i].pourFor > 5.5) R.flag("pulse-too-fast", tag + ": " + vol + "ml of pulses in " + pours[i].pourFor + "s");
+      if (dose <= 40 && vol / pulses > 80) R.flag("pulse-too-big", tag + ": pulses of " + Math.round(vol / pulses) + "ml");
+      if (window < pours[i].pourFor) R.flag("pulse-window", tag + ": pulses need " + pours[i].pourFor + "s, have " + window + "s");
+      continue;
+    }
     const needed = vol / rate;
     if (window > 0 && needed > window + 3)
       R.flag("pour-too-fast", tag + ": pour " + i + " is " + vol + "ml in " + window + "s (needs ~" + Math.round(needed) + "s)");
@@ -91,6 +99,7 @@ const MAX_POUR_SECONDS = 36;   // 35s limit + 1s of rounding slack
       try { r = H.buildRecipe(H.base({ dose, goal: g, brewer: b, strength: st })); } catch (e) { return; }
       const rate = H.pourRateFor(g);
       H.splitPours(r).pours.slice(1).forEach((x, i) => {
+        if (x.pourFor) return;   // pulsed step - checked in the main loop
         const sec = x.pour / rate;
         if (sec > MAX_POUR_SECONDS)
           R.flag("pour-too-long", dose + "g " + g + "/" + b + "/" + st + ": pour " + (i + 2) +

@@ -1,3 +1,27 @@
+## 2.12.3
+
+Pulsar Everyday follows Jonathan Gagné's recipe.
+
+- Pulsar Everyday (hot) now brews his way: level the bed, bloom about 3x the
+  dose with the valve open and close it at the first drip, swirl by the base,
+  then at 1:00 open the valve and pour small pulses keeping the slurry about
+  1cm above the bed, finishing around 4:00. It stays labelled Everyday.
+- The open-valve step and the pulses are one "Pulses" step. The timer shows
+  POUR through the whole pulsing window and "Open the valve" for its first 10s.
+- Pulsar Everyday brews 4C hotter than the V60 (his recipe uses 99C because
+  the plastic cools the water), capped at 99C. Other Pulsar styles and iced
+  are unchanged.
+- No temperature anywhere reaches 100C (cap 99C; xBloom stays at 95C).
+- Pulsar notes: credit to Jonathan Gagné, a short red tip (open the valve at
+  0:30 for a brighter cup) and a low-agitation note.
+
+Tests
+- 05-pours.js checks pulsed steps by pulse speed and size, and sweeps every
+  combination for temperatures of 100C or more.
+- 12-pulsar.js checks the Bloom + Pulses shape, water totals, finish window
+  and temperatures.
+- 11-machines.js checks the Aiden card never shows 100C or more.
+
 ## 2.12.2
 
 - Natural is now first in the process list and the default process. A fresh
